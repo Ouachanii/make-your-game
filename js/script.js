@@ -266,7 +266,7 @@ function createEnemy() {
   let spawnCell;
   do {
     spawnCell = groundCells[Math.floor(Math.random() * groundCells.length)];
-  } while (spawnCell.row === playerPos.row && spawnCell.col === playerPos.col);
+  } while (spawnCell.row !== playerPos.row && spawnCell.col !== playerPos.col);
 
   // Create enemy element
   const enemy = document.createElement("img");
@@ -275,7 +275,8 @@ function createEnemy() {
   enemy.style.position = "absolute";
   enemy.style.width = `${cellSize}px`;
   enemy.style.height = `${cellSize}px`;
-  enemy.style.transform = `translate(${spawnCell.col * cellSize}px, ${spawnCell.row * cellSize}px)`;
+
+  // enemy.style.transform = `translate(${spawnCell.col * cellSize}px, ${spawnCell.row * cellSize}px)`;
 
   // Track enemy position
   enemy.dataset.row = spawnCell.row;
@@ -313,7 +314,8 @@ function moveEnemies() {
       if (
         newRow >= 0 && newRow < rowsLen &&
         newCol >= 0 && newCol < colsLen &&
-        !wallCells.has(`${newRow},${newCol}`)
+        canMoveTo(newRow, newCol) &&
+        !enemies.some(e => e.row === newRow && e.col === newCol) // Check if the cell is not occupied by another enemy
       ) {
         enemy.row = newRow;
         enemy.col = newCol;
@@ -321,14 +323,40 @@ function moveEnemies() {
         break;
       }
     }
+   });
+}
+
+function checkEnemyCollision() {
+  enemies.forEach(enemy => {
+    if (enemy.row === playerPos.row && enemy.col === playerPos.col) {
+      console.log("Collision detected!");
+      return true; // Collision detected
+    }
   });
 }
 
+let lv = document.getElementById("lives");// Lives management
+let lives = 3;
+function loseLife() {
+  lives--;
+  console.log("Lives left: " + lives);
+  lv.innerHTML = `Lives: ${lives}`;
+  if (lives <= 0) {
+    alert("Game Over");
+    // Reset game or redirect to another page
+  }
+}
+function checkGameOver() {
+  if (checkEnemyCollision()) {
+    loseLife();
+  }
+}
 // Animation loop
 function gameLoop(timestamp) {
   if (!lastEnemyMoveTime) lastEnemyMoveTime = timestamp;
-  if (timestamp - lastEnemyMoveTime > ENEMY_MOVE_INTERVAL) {
+  if (timestamp - lastEnemyMoveTime > ENEMY_MOVE_INTERVAL){
     moveEnemies();
+    checkGameOver();
     lastEnemyMoveTime = timestamp;
   }
   requestAnimationFrame(gameLoop);
