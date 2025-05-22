@@ -1,58 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>make your game</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css"> 
     <!--
     <script src="script.js" defer></script>
     -->
-
+    
 </head>
-
 <body>
     <header>
-        <h1>Super Bomberman</h1>
+        <h1>Space Invaders</h1>
     </header>
 
     <div class="page-screen">
 
         <div class="scoreboard">
-            <span>Score: <span id="score">0</span></span>
-            <span>Lives: <span id="lives">3</span></span>
-            <span>Time: <span id="timer">00:00</span></span>
-        </div>
-
-
-        <div class="game-area" id="game-area">
-            <!-- 
-        <div id="player"></div>
-        <div id="invaders"></div>
-        <div id="bullets"></div>
-        <div id="explosions"></div> -->
-
-        </div>
-
-
-        <div class="pause-menu">
-            <div class="pause-menu-content">
-                <h2>Game Paused</h2>
-                <button id="continue-btn">Continue</button>
-                <button id="restart-btn">Restart</button>
-            </div>
-        </div>
+    <span>Score: <span id="score">0</span></span>
+    <span>Lives: <span id="lives">3</span></span>
+    <span>Time: <span id="timer">00:00</span></span>
     </div>
 
 
+    <div class="game-area" id="game-area">
+ 
+
+    </div>
+    
+    
+    <div class="pause-menu">
+        <div class="pause-menu-content">
+          <h2>Game Paused</h2>
+          <button id="continue-btn">Continue</button>
+          <button id="restart-btn">Restart</button>
+        </div>
+    </div>
+</div>
+    
+    
     <footer>
-        <p class="footer">&copy; 2025 Super Bomberman Game</p>
+        <p class="footer">&copy; 2025 Space Invaders Game</p>
     </footer>
 
-    <script src="js/script.js"></script>
-    <script src="js/gameState.js"></script>
+     <script src="js/script.js"></script>
+     <script src="js/gameState.js"></script>
+     <script type="module" src="js/main.js"></script>
 
 </body>
-
 </html>
