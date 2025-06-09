@@ -1,28 +1,70 @@
+import { GAME_DATA } from './data.js';
+import { handleKeyDown } from './player.js';
+
+
+import { init } from './init.js';
+
+// pauseButton.addEventListener("click", () => {
+//     pauseMenu.classList.remove("hidden");
+//     GAME_DATA.isPaused = true;
+// });
+
+// continueButton.addEventListener("click", () => {
+//     pauseMenu.classList.add("hidden");
+//     GAME_DATA.isPaused = false
+// });
+
+// restartButton.addEventListener("click", () => {
+//     pauseMenu.classList.add("hidden");
+// init()
+
+// });
 
 
 
 
+function isArrowOrSpace(key) {
+  return ["ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp", " ", "Spacebar", "Space"].includes(key) || key === " ";
+}
 
 document.addEventListener('keydown', (e) => {
-  // Check if arrow key is pressed
+  if (isArrowOrSpace(e.key) || e.code === "Space") {
+    e.preventDefault();
+  }
+  handleKeyDown(e);
+  if (e.key === "p" && !GAME_DATA.isDead) { GAME_DATA.isPaused = true; }
+  if (e.key === "r" && !GAME_DATA.isDead) { GAME_DATA.isPaused = false; }
+});
 
-  e.preventDefault(); // Stops page from scrolling
+
+////////////////////////////////////
+
+const startMenu = document.getElementById("start-menu");
+const startButton = document.getElementById("start-button");
+
+startButton.addEventListener("click", () => {
+
+  startMenu.classList.add("hidden");
+
+  GAME_DATA.isStarted = true;
+
+});
 
 
-  // Your movement logic
-  if (e.key === 'ArrowRight') movePlayer(1, 0);
-  if (e.key === 'ArrowLeft') movePlayer(-1, 0);
-  if (e.key === 'ArrowDown') movePlayer(0, 1);
-  if (e.key === 'ArrowUp') movePlayer(0, -1);
-  if (e.code === "Space") bomb();
-  if (e.key === "a"){
-   moveEnemies()
-    };
-  if (e.key === "s") GAME_DATA.isPaused = false;
+if (GAME_DATA.isPaused = true) {
+
+  const pauseMenu = document.getElementById("game-over-menu");
+  const restartButton = document.getElementById("restart-button");
+  const menu_box = document.getElementsByClassName("menu-box");
+  restartButton.addEventListener("click", () => {
+
+    pauseMenu.classList.add("hidden")
+
+    init();
+
   });
 
+}
 
 
-
-
-init();
+document.addEventListener('DOMContentLoaded', init())
