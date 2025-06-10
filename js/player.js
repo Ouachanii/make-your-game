@@ -38,7 +38,8 @@ export function canMoveTo(x, y) {
     (GAME_DATA.temporaryCells.some(cordinate => (cordinate.x === x && cordinate.y === y))));
 }
 
-export function movePlayer(dx, dy) {
+export async function movePlayer(dx, dy) {
+  await detectCollision();
   let player = document.getElementById("player");
   if (!player) return;
   const newX = GAME_DATA.playerPos.x + dy;
@@ -48,11 +49,11 @@ export function movePlayer(dx, dy) {
     GAME_DATA.playerPos.x = newX;
     GAME_DATA.playerPos.y = newY;
   }
-  detectCollision(); // Check for collisions after moving
+   // Check for collisions after moving
 }
 
 export function handleKeyDown(event) {
-  if (!GAME_DATA.isPaused || GAME_DATA.isDead || !GAME_DATA.isStarted) return;
+  if (GAME_DATA.isPaused || GAME_DATA.isDead || !GAME_DATA.isStarted) return;
 
   switch (event.key) {
     case "ArrowUp":

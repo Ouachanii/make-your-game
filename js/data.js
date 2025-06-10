@@ -112,10 +112,9 @@ const level = [
 
         ],
 
-        playerPos: { x: 1, y: 1 },
         enmSpawnPos: [
-            { x: 1, y: 11 },
-            { x: 11, y: 1 },
+            { x: 1, y: 8 },
+            { x: 3, y: 3 },
         ],
 
     }, {
@@ -192,7 +191,7 @@ const level = [
 
         ],
 
-        playerPos: { x: 1, y: 1 },
+        
         enmSpawnPos: [
             { x: 1, y: 11 },
             { x: 11, y: 1 },
@@ -273,7 +272,7 @@ const level = [
 
         ],
 
-        playerPos: { x: 1, y: 1 },
+        
         enmSpawnPos: [
             { x: 1, y: 11 },
             { x: 11, y: 1 },
@@ -355,7 +354,7 @@ const level = [
 
         ],
 
-        playerPos: { x: 1, y: 1 },
+        
         enmSpawnPos: [
             { x: 1, y: 11 },
             { x: 11, y: 1 },

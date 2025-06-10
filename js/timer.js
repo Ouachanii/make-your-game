@@ -5,7 +5,9 @@ export function startTimer() {
   GAME_DATA.timerInterval = setInterval(() => {
     const elapsed = Math.floor((Date.now() - GAME_DATA.startTime) / 1000);
     GAME_DATA.totalSeconds = elapsed;
-    timer.textContent = `${elapsed}s`;
+    const minutes = Math.floor(elapsed / 60);
+    const seconds = elapsed % 60;
+    timer.textContent = `${minutes}:${seconds.toString().padStart(2, "0")}`;
   }
   , 1000);
 }

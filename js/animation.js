@@ -2,6 +2,7 @@ import { GAME_DATA} from './data.js';
 import { HandleLose, endReached } from './endGame.js';
 import { bombedArea } from './bomb.js';
 import { updateEnemies } from './enemies.js';
+import { createPlayer } from './player.js';
 
 export function update() {
   if (bombedArea(GAME_DATA.playerPos.x, GAME_DATA.playerPos.y)) {
