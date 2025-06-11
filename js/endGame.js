@@ -14,20 +14,22 @@ export function HandleWin() {
 }
 
 export function HandleLose() {
+    
+    GAME_DATA.isStarted = false;
+
     const loseMenu = document.getElementById("game-over-menu");
     if (!loseMenu) return;
+
     loseMenu.classList.remove("hidden");
-
-    const scoreElem = document.createElement("span").textContent = `Final Score: ${GAME_DATA.score}`;
-    loseMenu.append(scoreElem)
-    const timeElm = document.createElement("span").textContent = `Time Taken: ${GAME_DATA.totalSeconds} seconds`;
-    loseMenu.append(timeElm)
-
+    loseMenu.querySelector("#final-score").textContent = `${GAME_DATA.score}`;
+    loseMenu.querySelector("#final-time").textContent = `${180 - GAME_DATA.totalSeconds} seconds`;
+    loseMenu.querySelector("#final-level").textContent = `${GAME_DATA.level}`;
+    
 }
 
 export function endReached() {
     const timer = document.getElementById("timer");
-    
+
     clearInterval(GAME_DATA.timerInterval);
     timer.textContent = `You reached the end in ${GAME_DATA.totalSeconds} seconds!`;
     GAME_DATA.isStarted = false;

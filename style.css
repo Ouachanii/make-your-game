@@ -131,7 +131,7 @@ div.scoreboard {
     width: 60px;
     height: 60px;
     padding-right: 20px;
- z-index: 2;
+    z-index: 2;
 
 }
 
@@ -254,11 +254,13 @@ div.scoreboard {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+    background: rgba(0, 0, 0, 0.7);
+    /* Semi-transparent black */
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Ensure it's above everything */
+    z-index: 1000;
+    /* Ensure it's above everything */
 }
 
 /* Menu Box (White Box with Buttons) */
@@ -289,6 +291,35 @@ div.scoreboard {
 
 .menu-box button:hover {
     background: #45a049;
+}
+
+.menu-box .final-info {
+    background: #fff;
+    color: #6a0dad;
+    border-radius: 8px;
+    padding: 18px 10px 10px 10px;
+    margin: 18px 0 10px 0;
+    box-shadow: 0 2px 12px rgba(106, 13, 173, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.menu-box .final-info span {
+    margin: 6px 0;
+    font-size: 1.1em;
+    color: #4a235a;
+}
+
+.menu-overlay#game-over-menu .menu-box {
+    background: #fff;
+    color: #6a0dad;
+}
+
+.menu-overlay#game-over-menu .menu-box h2 {
+    color: #e74c3c;
 }
 
 /* Hide menu when not needed */

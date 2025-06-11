@@ -2,6 +2,7 @@ import { createPlayer } from "./player.js";
 import { GAME_DATA } from "./data.js";
 import { HandleLose } from "./endGame.js";
 import { spawnEnmies } from "./init.js";
+import { stopAnimation } from "./animation.js";
 
 export async function detectCollision() {
   const player = document.getElementById("player");
@@ -36,9 +37,11 @@ export async function detectCollision() {
       document.getElementById("lives").textContent = `${GAME_DATA.lives}`;
 
       if (GAME_DATA.lives == 0) {
-        GAME_DATA.isDead = true;
-        document.getElementById("pause-menu").classList.remove("hidden");
+        
+        stopAnimation();
         HandleLose();
+        GAME_DATA.isDead = true;
+        
       }
       return;
     }

@@ -12,7 +12,8 @@ const gameOverMenu = document.getElementById("game-over-menu")
 const startButton = document.getElementById("start-button");
 const restartButtons = [
   document.getElementById("restart-button"),
-  document.getElementById("restart-btn")
+  document.getElementById("restart-btn"),
+  document.getElementById("restart-game-over"),
 ].filter(Boolean);
 
 restartButtons.forEach(restartButton => {
