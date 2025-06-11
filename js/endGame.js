@@ -12,23 +12,17 @@ export function HandleWin() {
     }
     );
 }
+
 export function HandleLose() {
     const loseMenu = document.getElementById("game-over-menu");
     if (!loseMenu) return;
     loseMenu.classList.remove("hidden");
-    const scoreElem = loseMenu.querySelector("#final-score");
-    const timeElem = loseMenu.querySelector("#final-time");
-    if (scoreElem) scoreElem.textContent = `Final Score: ${GAME_DATA.score}`;
-    if (timeElem) timeElem.textContent = `Time Taken: ${GAME_DATA.totalSeconds} seconds`;
-    const restartBtn = loseMenu.querySelector("#restart-button");
-    if (restartBtn) {
-        // Remove previous listeners by cloning
-        const newBtn = restartBtn.cloneNode(true);
-        restartBtn.parentNode.replaceChild(newBtn, restartBtn);
-        newBtn.addEventListener("click", () => {
-            init();
-        });
-    }
+
+    const scoreElem = document.createElement("span").textContent = `Final Score: ${GAME_DATA.score}`;
+    loseMenu.append(scoreElem)
+    const timeElm = document.createElement("span").textContent = `Time Taken: ${GAME_DATA.totalSeconds} seconds`;
+    loseMenu.append(timeElm)
+
 }
 
 export function endReached() {

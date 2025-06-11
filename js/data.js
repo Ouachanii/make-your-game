@@ -2,7 +2,7 @@ let GAME_DATA = {
 
     cellSize: 60,
 
-    isStarted: true,
+    isStarted: false,
     isPaused: false,
     isDead: false,
 
@@ -13,7 +13,7 @@ let GAME_DATA = {
 
     enemiesCount: 0,
 
-    totalSeconds: 0,
+    totalSeconds: 180,
     timerInterval: null,
 
     lastTime: Date.now(),
