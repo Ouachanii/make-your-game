@@ -1,32 +1,47 @@
 import { GAME_DATA } from './data.js';
 import { handleKeyDown } from './player.js';
 import { init } from './init.js';
+import { startAnimation, stopAnimation, update } from './animation.js';
 
 const pauseButton = document.getElementById("pause-btn");
 const pauseMenu = document.getElementById("pause-menu");
 const continueButton = document.getElementById("continue-button");
-const restartButton = document.getElementById("restart-btn");
-const menu_box = document.getElementsByClassName("menu-box");
+const restartButtons = [
+  document.getElementById("restart-button"),
+  document.getElementById("restart-btn")
+].filter(Boolean);
+
+restartButtons.forEach(restartButton => {
+  restartButton.addEventListener("click", () => {
+
+    pauseMenu.classList.add("hidden")
+
+    GAME_DATA.isPaused = false;
+    GAME_DATA.isDead = false;
+    GAME_DATA.isStarted = true;
+
+    init()
+
+    document.getElementById("lives").textContent = `${GAME_DATA.lives}`;
+    document.getElementById("level").textContent = `${GAME_DATA.level}`;
+    document.getElementById("score").textContent = `${GAME_DATA.score}`
+
+    startAnimation()
+
+  });
+});
 
 
 pauseButton.addEventListener("click", () => {
   pauseMenu.classList.remove("hidden");
   GAME_DATA.isPaused = true;
+  stopAnimation()
 });
 
 continueButton.addEventListener("click", () => {
   pauseMenu.classList.add("hidden");
   GAME_DATA.isPaused = false
-});
-
-restartButton.addEventListener("click", () => {
-  pauseMenu.classList.add("hidden");
-  menu_box.classList.add("hidden");
-  GAME_DATA.isPaused = false;
-  GAME_DATA.isDead = false;
-  GAME_DATA.isStarted = true;
-  init()
-
+  startAnimation()
 });
 
 
@@ -57,23 +72,9 @@ startButton.addEventListener("click", () => {
   GAME_DATA.isPaused = false;
   GAME_DATA.isDead = false;
 
+  startAnimation()
+
 });
-
-
-if (GAME_DATA.isPaused = true) {
-
-  const pauseMenu = document.getElementById("game-over-menu");
-  const restartButton = document.getElementById("restart-button");
-  const menu_box = document.getElementsByClassName("menu-box");
-  restartButton.addEventListener("click", () => {
-
-    menu_box.classList.add("hidden")
-
-    init();
-
-  });
-
-}
 
 
 document.addEventListener('DOMContentLoaded', init())

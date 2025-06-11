@@ -2,7 +2,6 @@ import { makeGrid, posCells, setUnbreakableCells, setTemporaryCells } from './gr
 import { createPlayer } from './player.js';
 import { startTimer } from './timer.js';
 import { GAME_DATA, level } from './data.js';
-import { update } from './animation.js';
 import { createEnemy } from './enemies.js';
 
 const gameScreen = document.getElementById("game-area");
@@ -16,6 +15,10 @@ export function init() {
   GAME_DATA.enemies = [];
   GAME_DATA.temporaryCells = [];
   GAME_DATA.isDead = false;
+  GAME_DATA.level = 1;
+  GAME_DATA.lives = 3;
+  GAME_DATA.score = 0;
+
   makeGrid();
   posCells();
   setUnbreakableCells();
@@ -23,7 +26,6 @@ export function init() {
   createPlayer();
   spawnEnmies();
   startTimer();
-  requestAnimationFrame(update);
 }
 
 

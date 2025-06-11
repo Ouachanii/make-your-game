@@ -4,6 +4,8 @@ import { bombedArea, decoloreCell } from './bomb.js';
 import { updateEnemies } from './enemies.js';
 import { createPlayer } from './player.js';
 
+let animationId;
+
 export function update() {
   if (bombedArea(GAME_DATA.playerPos.x, GAME_DATA.playerPos.y)) {
     let player = document.getElementById("player");
@@ -42,6 +44,19 @@ export function update() {
     endReached();
     return;
   }
-  requestAnimationFrame(update);
+
+  animationId = requestAnimationFrame(update);
 }
 
+export function startAnimation() {
+  if (!animationId) {
+    update();
+  }
+}
+
+export function stopAnimation() {
+  if (animationId) {
+    cancelAnimationFrame(animationId);
+    animationId = null;
+  }
+}

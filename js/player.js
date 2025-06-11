@@ -38,7 +38,15 @@ export function canMoveTo(x, y) {
     (GAME_DATA.temporaryCells.some(cordinate => (cordinate.x === x && cordinate.y === y))));
 }
 
+const playerMoveInt = 250;
+let lastMove = 0
+
 export async function movePlayer(dx, dy) {
+
+  const now = Date.now()
+
+  if (now - lastMove < playerMoveInt) return; 
+
   await detectCollision();
   let player = document.getElementById("player");
   if (!player) return;
@@ -49,7 +57,9 @@ export async function movePlayer(dx, dy) {
     GAME_DATA.playerPos.x = newX;
     GAME_DATA.playerPos.y = newY;
   }
-   // Check for collisions after moving
+
+  lastMove = now
+   
 }
 
 export function handleKeyDown(event) {
