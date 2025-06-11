@@ -7,27 +7,27 @@ const pauseMenu = document.getElementById("pause-menu");
 const continueButton = document.getElementById("continue-button");
 const restartButton = document.getElementById("restart-btn");
 const menu_box = document.getElementsByClassName("menu-box");
- pauseButton.addEventListener("click", () => {
-     pauseMenu.classList.remove("hidden");
-     GAME_DATA.isPaused = true;
- });
-
- continueButton.addEventListener("click", () => {
-     pauseMenu.classList.add("hidden");
-     GAME_DATA.isPaused = false
- });
-
- restartButton.addEventListener("click", () => {
-     pauseMenu.classList.add("hidden");
-     menu_box.classList.add("hidden");
-     GAME_DATA.isPaused = false;
-     GAME_DATA.isDead = false;
-     GAME_DATA.isStarted = true;
- init()
-
- });
 
 
+pauseButton.addEventListener("click", () => {
+  pauseMenu.classList.remove("hidden");
+  GAME_DATA.isPaused = true;
+});
+
+continueButton.addEventListener("click", () => {
+  pauseMenu.classList.add("hidden");
+  GAME_DATA.isPaused = false
+});
+
+restartButton.addEventListener("click", () => {
+  pauseMenu.classList.add("hidden");
+  menu_box.classList.add("hidden");
+  GAME_DATA.isPaused = false;
+  GAME_DATA.isDead = false;
+  GAME_DATA.isStarted = true;
+  init()
+
+});
 
 
 function isArrowOrSpace(key) {

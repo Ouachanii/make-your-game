@@ -42,20 +42,21 @@ function moveEnemies() {
     let newX = enemy.x + dy;
     let newY = enemy.y + dx;
 
-    // Check if next cell is valid ground
+    // Check if next cell is valid
     const isValid =
       newX >= 0 && newX < GAME_DATA.rowsLen &&
       newY >= 0 && newY < GAME_DATA.colsLen &&
       !GAME_DATA.wallCells.has(`${newX},${newY}`) &&
       !GAME_DATA.temporaryCells.some(cell => cell.x === newX && cell.y === newY) &&
       !GAME_DATA.bombedCells.some(cell => cell.x === newX && cell.y === newY);
+
     if (isValid) {
       enemy.x = newX;
       enemy.y = newY;
       enemy.el.style.transform = `translate(${enemy.y * GAME_DATA.cellSize}px, ${enemy.x * GAME_DATA.cellSize}px)`;
     } else {
 
-      // If not valid, change direction
+      // If not valid, change direction randomly
 
       const shuffled = ENEMY_DIRECTIONS.sort(() => Math.random() - 0.5);
       
@@ -79,6 +80,8 @@ function moveEnemies() {
     }
   });
 }
+
+
 export async function updateEnemies() {
   const now = Date.now();
   if (now - lastEnemyMoveTime > ENEMY_MOVE_INTERVAL) {

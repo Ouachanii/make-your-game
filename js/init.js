@@ -21,13 +21,18 @@ export function init() {
   setUnbreakableCells();
   setTemporaryCells();
   createPlayer();
-  for (let i = 0; i <= GAME_DATA.level; i++) {
-    console.log(`Spawning enemy at position: ${level[GAME_DATA.level - 1].enmSpawnPos[i].x}, ${level[GAME_DATA.level - 1].enmSpawnPos[i].y}`);
-    GAME_DATA.enmSpawnCell = level[GAME_DATA.level - 1].enmSpawnPos[i];
-    console.log(GAME_DATA.enmSpawnCell);
-    createEnemy();
-    GAME_DATA.enemiesCount++;
-  }
+  spawnEnmies();
   startTimer();
   requestAnimationFrame(update);
 }
+
+
+export function spawnEnmies() {
+    for (let i = 0; i <= GAME_DATA.level; i++) {
+      console.log(`Spawning enemy at position: ${level[GAME_DATA.level - 1].enmSpawnPos[i].x}, ${level[GAME_DATA.level - 1].enmSpawnPos[i].y}`);
+      GAME_DATA.enmSpawnCell = level[GAME_DATA.level - 1].enmSpawnPos[i];
+      console.log(GAME_DATA.enmSpawnCell);
+      createEnemy();
+      GAME_DATA.enemiesCount++;
+    }
+  }

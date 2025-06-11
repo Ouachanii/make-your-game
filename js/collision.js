@@ -1,6 +1,7 @@
 import { createPlayer } from "./player.js";
 import { GAME_DATA } from "./data.js";
 import { HandleLose } from "./endGame.js";
+import { spawnEnmies } from "./init.js";
 
 export async function detectCollision() {
   const player = document.getElementById("player");
@@ -20,7 +21,11 @@ export async function detectCollision() {
       // Collision detected
       const player = document.getElementById("player");
       if (player) player.remove();
+      for (const enemy of enemies) {
+        if (enemy) enemy.remove(); 
+      }
       createPlayer(); // Respawn player
+      spawnEnmies(); // Respawn enemies
       GAME_DATA.score -= 100; // Deduct score for collision
       if (GAME_DATA.score < 0) GAME_DATA.score = 0; // Prevent negative score
 

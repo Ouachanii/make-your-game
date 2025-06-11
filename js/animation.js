@@ -1,6 +1,6 @@
 import { GAME_DATA} from './data.js';
 import { HandleLose, endReached } from './endGame.js';
-import { bombedArea } from './bomb.js';
+import { bombedArea, decoloreCell } from './bomb.js';
 import { updateEnemies } from './enemies.js';
 import { createPlayer } from './player.js';
 
@@ -45,10 +45,3 @@ export function update() {
   requestAnimationFrame(update);
 }
 
-export function decoloreCell(x, y) {
-  const cell = document.getElementById(`cell-${x}-${y}`);
-  if (cell) {
-    cell.classList.remove("wood");
-    cell.classList.add("ground");
-  }
-}

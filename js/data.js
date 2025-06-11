@@ -113,7 +113,7 @@ const level = [
         ],
 
         enmSpawnPos: [
-            { x: 1, y: 8 },
+            { x: 1, y: 10 },
             { x: 3, y: 3 },
         ],
 

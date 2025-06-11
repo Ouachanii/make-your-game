@@ -33,10 +33,12 @@ export function HandleLose() {
 
 export function endReached() {
     const timer = document.getElementById("timer");
+    
     clearInterval(GAME_DATA.timerInterval);
     timer.textContent = `You reached the end in ${GAME_DATA.totalSeconds} seconds!`;
     GAME_DATA.isStarted = false;
     GAME_DATA.isPaused = true;
+
     document.getElementById("pause-menu").classList.remove("hidden");
     HandleWin();
 }
