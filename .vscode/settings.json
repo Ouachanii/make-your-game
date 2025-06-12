@@ -1,9 +1,0 @@
-{
-    "editor.cursorStyle": "line",
-    "editor.cursorSmoothCaretAnimation": "on",
-    "editor.cursorBlinking": "smooth",
-    "editor.wrappingStrategy": "advanced",
-    "editor.formatOnPaste": true,
-    "editor.formatOnSave": true,
-    "diffEditor.experimental.useTrueInlineView": true
-}

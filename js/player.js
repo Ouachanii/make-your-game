@@ -2,6 +2,8 @@ const gameScreen = document.getElementById("game-area");
 import { GAME_DATA } from './data.js';
 import { detectCollision } from './collision.js';
 import { bomb } from './bomb.js';
+import { startAnimation} from './animation.js';
+import { init } from './init.js';
 
 export function createPlayer() {
   let player = document.createElement("img");
@@ -45,7 +47,7 @@ export async function movePlayer(dx, dy) {
 
   const now = Date.now()
 
-  if (now - lastMove < playerMoveInt) return; 
+  if (now - lastMove < playerMoveInt) return;
 
   await detectCollision();
   let player = document.getElementById("player");
@@ -59,12 +61,12 @@ export async function movePlayer(dx, dy) {
   }
 
   lastMove = now
-   
+
 }
 
-export function handleKeyDown(event) {
-  if (GAME_DATA.isPaused || GAME_DATA.isDead || !GAME_DATA.isStarted) return;
+let clicked = false;
 
+export function handleKeyDown(event) {
   switch (event.key) {
     case "ArrowUp":
       movePlayer(0, -1);
@@ -81,6 +83,35 @@ export function handleKeyDown(event) {
     case " " || "Spacebar" || "Space":
       bomb();
       break;
+    case "p":
+      if (!clicked) {
+        GAME_DATA.isPaused = true;
+        clicked = true
+        document.getElementById("pause-menu").classList.remove("hidden")
+      } else {
+        GAME_DATA.isPaused = false
+        clicked = false
+        startAnimation();
+        document.getElementById("pause-menu").classList.add("hidden")
+      }
+      break
+    case "r":
+      GAME_DATA.isPaused = false;
+      GAME_DATA.isDead = false;
+      GAME_DATA.isStarted = true;
+      GAME_DATA.totalSeconds = 180;
+
+      init()
+
+      document.getElementById("lives").textContent = `${GAME_DATA.lives}`;
+      document.getElementById("level").textContent = `${GAME_DATA.level}`;
+      document.getElementById("score").textContent = `${GAME_DATA.score}`;
+      document.getElementById("timer").textContent = "3:00"
+
+      startAnimation()
+      document.getElementById("pause-menu").classList.add("hidden")
+      document.getElementById("game-over-menu").classList.add("hidden")
+      break
     default:
       return;
   }

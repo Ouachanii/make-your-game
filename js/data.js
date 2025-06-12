@@ -31,6 +31,7 @@ let GAME_DATA = {
     colsLen: 0,
 
     lastBomb: 0,
+    animationId: null,
 
     endPose: { x: 6, y: 7 },
 }

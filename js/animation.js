@@ -1,10 +1,10 @@
 import { GAME_DATA} from './data.js';
-import { HandleLose, endReached } from './endGame.js';
+import { endReached } from './endGame.js';
 import { bombedArea, decoloreCell } from './bomb.js';
 import { updateEnemies } from './enemies.js';
 import { createPlayer } from './player.js';
 
-let animationId;
+
 
 export function update() {
   if (bombedArea(GAME_DATA.playerPos.x, GAME_DATA.playerPos.y)) {
@@ -17,15 +17,13 @@ export function update() {
     GAME_DATA.lives--;
     if (GAME_DATA.lives < 0) GAME_DATA.lives = 0; // Prevent negative lives
     document.getElementById("lives").textContent = `${GAME_DATA.lives}`;
-    if (GAME_DATA.lives == 0) {
-      GAME_DATA.isDead = true;
-      document.getElementById("score").textContent = "0";
-      document.getElementById("lives").textContent = "0";
-    }
-    HandleLose();
+    
     return;
   }
+
   updateEnemies();
+
+
   // Remove bombed temporary cells
   GAME_DATA.temporaryCells = GAME_DATA.temporaryCells.filter(cell => {
     if (bombedArea(cell.x, cell.y)) {
@@ -35,6 +33,8 @@ export function update() {
     }
     return true;
   });
+
+
   // End reached
   if (GAME_DATA.playerPos.x === GAME_DATA.endPose.x && GAME_DATA.playerPos.y === GAME_DATA.endPose.y) {
     let player = document.getElementById("player");
@@ -45,18 +45,18 @@ export function update() {
     return;
   }
 
-  animationId = requestAnimationFrame(update);
+  GAME_DATA.animationId = requestAnimationFrame(update);
+
+  if (GAME_DATA.animationId && GAME_DATA.isPaused) {
+    cancelAnimationFrame(GAME_DATA.animationId);
+    GAME_DATA.animationId = null;
+  }
+
+  console.log(GAME_DATA.animationId)
 }
 
 export function startAnimation() {
-  if (!animationId) {
+  if (!GAME_DATA.animationId && !GAME_DATA.isPaused) {
     update();
-  }
-}
-
-export function stopAnimation() {
-  if (animationId) {
-    cancelAnimationFrame(animationId);
-    animationId = null;
   }
 }

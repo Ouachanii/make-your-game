@@ -2,9 +2,14 @@ import { createPlayer } from "./player.js";
 import { GAME_DATA } from "./data.js";
 import { HandleLose } from "./endGame.js";
 import { spawnEnmies } from "./init.js";
-import { stopAnimation } from "./animation.js";
 
 export async function detectCollision() {
+
+  if (GAME_DATA.lives == 0) {
+    HandleLose();
+    return
+  }
+
   const player = document.getElementById("player");
   if (!player) return;
 
@@ -23,7 +28,7 @@ export async function detectCollision() {
       const player = document.getElementById("player");
       if (player) player.remove();
       for (const enemy of enemies) {
-        if (enemy) enemy.remove(); 
+        if (enemy) enemy.remove();
       }
       createPlayer(); // Respawn player
       spawnEnmies(); // Respawn enemies
@@ -35,14 +40,6 @@ export async function detectCollision() {
       GAME_DATA.lives--;
       if (GAME_DATA.lives < 0) GAME_DATA.lives = 0; // Prevent negative lives
       document.getElementById("lives").textContent = `${GAME_DATA.lives}`;
-
-      if (GAME_DATA.lives == 0) {
-        
-        stopAnimation();
-        HandleLose();
-        GAME_DATA.isDead = true;
-        
-      }
       return;
     }
   }
