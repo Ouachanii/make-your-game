@@ -45,7 +45,6 @@ continueButton.addEventListener("click", () => {
   startAnimation();
 });
 
-
 restartButtons.forEach(restartButton => {
   restartButton.addEventListener("click", () => {
 
@@ -78,4 +77,42 @@ document.addEventListener('keydown', (e) => {
     e.preventDefault();
   }
   handleKeyDown(e);
+});
+
+let clicked = false;
+document.addEventListener('keyup', (e) => {
+  if (isArrowOrSpace(e.key) || e.code === "Space") {
+    e.preventDefault();
+  }
+  switch (e.key) {
+    case "p":
+      if (!clicked) {
+        GAME_DATA.isPaused = true;
+        clicked = true
+        document.getElementById("pause-menu").classList.remove("hidden")
+      } else {
+        GAME_DATA.isPaused = false
+        clicked = false
+        startAnimation();
+        document.getElementById("pause-menu").classList.add("hidden")
+      }
+      break
+    case "r":
+      GAME_DATA.isPaused = false;
+      GAME_DATA.isDead = false;
+      GAME_DATA.isStarted = true;
+      GAME_DATA.totalSeconds = 180;
+
+      init()
+
+      document.getElementById("lives").textContent = `${GAME_DATA.lives}`;
+      document.getElementById("level").textContent = `${GAME_DATA.level}`;
+      document.getElementById("score").textContent = `${GAME_DATA.score}`;
+      document.getElementById("timer").textContent = "3:00"
+
+      startAnimation()
+      document.getElementById("pause-menu").classList.add("hidden")
+      document.getElementById("game-over-menu").classList.add("hidden")
+      break
+  }
 });
