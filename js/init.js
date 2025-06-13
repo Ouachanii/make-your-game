@@ -15,6 +15,7 @@ export function init() {
   GAME_DATA.enemies = [];
   GAME_DATA.temporaryCells = [];
   GAME_DATA.isDead = false;
+  
   GAME_DATA.level = 1;
   GAME_DATA.lives = 3;
   GAME_DATA.score = 0;
@@ -31,11 +32,16 @@ export function init() {
 
 
 export function spawnEnmies() {
+
+  
+
   for (let i = 0; i <= GAME_DATA.level; i++) {
-    console.log(`Spawning enemy at position: ${level[GAME_DATA.level - 1].enmSpawnPos[i].x}, ${level[GAME_DATA.level - 1].enmSpawnPos[i].y}`);
+
     GAME_DATA.enmSpawnCell = level[GAME_DATA.level - 1].enmSpawnPos[i];
-    console.log(GAME_DATA.enmSpawnCell);
+    
     createEnemy();
+
     GAME_DATA.enemiesCount++;
   }
+
 }

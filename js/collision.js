@@ -12,8 +12,9 @@ export async function detectCollision() {
 
   const player = document.getElementById("player");
   if (!player) return;
-
+  
   const playerRect = player.getBoundingClientRect();
+
   const enemies = document.querySelectorAll(".enemy");
 
   for (const enemy of enemies) {
@@ -26,18 +27,35 @@ export async function detectCollision() {
     ) {
       // Collision detected
       const player = document.getElementById("player");
-      if (player) player.remove();
+      if (player) { 
+        
+        player.remove();
+     
+
+      console.log("enemy collided")
+      }
+      
       for (const enemy of enemies) {
         if (enemy) enemy.remove();
       }
-      createPlayer(); // Respawn player
-      spawnEnmies(); // Respawn enemies
+   
       GAME_DATA.score -= 100; // Deduct score for collision
+     
+     setTimeout( () => {
+
+       createPlayer(); // Respawn player
+       spawnEnmies(); // Respawn enemies
+       
+
+     },2000)
+
       if (GAME_DATA.score < 0) GAME_DATA.score = 0; // Prevent negative score
 
       document.getElementById("score").textContent = `${GAME_DATA.score}`;
 
+        
       GAME_DATA.lives--;
+       
       if (GAME_DATA.lives < 0) GAME_DATA.lives = 0; // Prevent negative lives
       document.getElementById("lives").textContent = `${GAME_DATA.lives}`;
       return;

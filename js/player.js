@@ -47,7 +47,7 @@ export async function movePlayer(dx, dy) {
 
   const now = Date.now()
 
-  if (now - lastMove < playerMoveInt) return;
+  if (now - lastMove < playerMoveInt || GAME_DATA.isPaused || !GAME_DATA.isStarted) return;
 
   await detectCollision();
   let player = document.getElementById("player");

@@ -24,7 +24,7 @@ let GAME_DATA = {
     bombedCells: [],
     groundCells: [],
     enemies: [],
-    enmSpawnCell: {x: 0, y: 0},
+    enmSpawnCell: [],
     temporaryCells: [],
 
     rowsLen: 0,
@@ -33,6 +33,7 @@ let GAME_DATA = {
     lastBomb: 0,
     animationId: null,
 
+     
     endPose: { x: 6, y: 7 },
 }
 

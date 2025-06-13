@@ -15,7 +15,7 @@ export function HandleWin() {
 
 export function HandleLose() {
         
-    GAME_DATA.isStarted = false;
+   // GAME_DATA.isStarted = false;
     GAME_DATA.isPaused = true;
 
     const loseMenu = document.getElementById("game-over-menu");

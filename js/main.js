@@ -17,7 +17,7 @@ const restartButtons = [
   document.getElementById("restart-button"),
   document.getElementById("restart-btn"),
   document.getElementById("restart-game-over"),
-].filter(Boolean);
+];
 
 
 
@@ -50,18 +50,18 @@ restartButtons.forEach(restartButton => {
 
     pauseMenu.classList.add("hidden")
     gameOverMenu.classList.add("hidden")
-
+console.log("restart clicked")
     GAME_DATA.isPaused = false;
     GAME_DATA.isDead = false;
     GAME_DATA.isStarted = true;
     GAME_DATA.totalSeconds = 180;
-
+    GAME_DATA.animationId = null;
     init()
 
     document.getElementById("lives").textContent = `${GAME_DATA.lives}`;
     document.getElementById("level").textContent = `${GAME_DATA.level}`;
     document.getElementById("score").textContent = `${GAME_DATA.score}`;
-    document.getElementById("timer").textContent = "3:00"
+ 
 
     startAnimation()
 
@@ -72,6 +72,8 @@ function isArrowOrSpace(key) {
   return ["ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp", " ", "Spacebar", "Space"].includes(key) || key === " ";
 }
 
+
+
 document.addEventListener('keydown', (e) => {
   if (isArrowOrSpace(e.key) || e.code === "Space") {
     e.preventDefault();
@@ -79,18 +81,25 @@ document.addEventListener('keydown', (e) => {
   handleKeyDown(e);
 });
 
+
+
 let clicked = false;
+
+
+
 document.addEventListener('keyup', (e) => {
   if (isArrowOrSpace(e.key) || e.code === "Space") {
     e.preventDefault();
   }
   switch (e.key) {
     case "p":
-      if (!clicked) {
+      if (!clicked && GAME_DATA.isStarted) {
         GAME_DATA.isPaused = true;
         clicked = true
         document.getElementById("pause-menu").classList.remove("hidden")
-      } else {
+    
+    
+      } else if (clicked && GAME_DATA.isStarted) {
         GAME_DATA.isPaused = false
         clicked = false
         startAnimation();
@@ -98,21 +107,25 @@ document.addEventListener('keyup', (e) => {
       }
       break
     case "r":
-      GAME_DATA.isPaused = false;
-      GAME_DATA.isDead = false;
-      GAME_DATA.isStarted = true;
-      GAME_DATA.totalSeconds = 180;
 
-      init()
+     if (GAME_DATA.isStarted) {
+      pauseMenu.classList.add("hidden")
+    gameOverMenu.classList.add("hidden")
+ 
+    GAME_DATA.isPaused = false;
+    GAME_DATA.isDead = false;
+    GAME_DATA.isStarted = true;
+    GAME_DATA.totalSeconds = 180;
+    GAME_DATA.animationId = null;
+    init()
 
-      document.getElementById("lives").textContent = `${GAME_DATA.lives}`;
-      document.getElementById("level").textContent = `${GAME_DATA.level}`;
-      document.getElementById("score").textContent = `${GAME_DATA.score}`;
-      document.getElementById("timer").textContent = "3:00"
+    document.getElementById("lives").textContent = `${GAME_DATA.lives}`;
+    document.getElementById("level").textContent = `${GAME_DATA.level}`;
+    document.getElementById("score").textContent = `${GAME_DATA.score}`;
+ 
 
-      startAnimation()
-      document.getElementById("pause-menu").classList.add("hidden")
-      document.getElementById("game-over-menu").classList.add("hidden")
+    startAnimation()
       break
+  }
   }
 });
