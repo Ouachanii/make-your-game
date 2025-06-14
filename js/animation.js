@@ -9,14 +9,9 @@ import { startTimer } from './timer.js';
 
 
 export function update() {
+ 
 
-
-
-
-
-
-
-  if (bombedArea(GAME_DATA.playerPos.x, GAME_DATA.playerPos.y) ) {
+  if (bombedArea(GAME_DATA.playerPos.x, GAME_DATA.playerPos.y) && !GAME_DATA.isPaused ) {
    
     let player = document.getElementById("player");
    
@@ -26,18 +21,12 @@ export function update() {
       player.remove();
     
     }
-
-    
+ 
     let enemies = document.querySelectorAll(".enemy")
 
      enemies.forEach(enemy => enemy.remove());
 
-    
-    //createPlayer(); // Respawn player
-
-    
     GAME_DATA.lives--;
-
 
 
     if (GAME_DATA.lives == 0){
@@ -59,8 +48,6 @@ export function update() {
   
     document.getElementById("score").textContent = `${GAME_DATA.score}`;
   
-    // GAME_DATA.score -= 100; // Deduct score for collision
-    
 GAME_DATA.isPaused = true
      
   setTimeout( () => {
@@ -72,11 +59,11 @@ GAME_DATA.isPaused = true
         GAME_DATA.isPaused = false
 
         startTimer();
+
         GAME_DATA.animationId = requestAnimationFrame(update);
 
 
-
-     },2000)
+     },3000)
   
 
      
@@ -86,7 +73,7 @@ GAME_DATA.isPaused = true
 
       document.getElementById("score").textContent = `${GAME_DATA.score}`;
 
-     // GAME_DATA.lives--;
+   
       if (GAME_DATA.lives < 0) GAME_DATA.lives = 0; // Prevent negative lives
      
       document.getElementById("lives").textContent = `${GAME_DATA.lives}`;

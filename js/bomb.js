@@ -57,7 +57,7 @@ export function bomb() {
       GAME_DATA.bombedCells.length = 0;
 
 
-    }, 500)
+    }, 200)
 
   }, 1500);
 

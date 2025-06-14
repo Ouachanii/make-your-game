@@ -2,6 +2,8 @@ import { createPlayer } from "./player.js";
 import { GAME_DATA } from "./data.js";
 import { HandleLose } from "./endGame.js";
 import { spawnEnmies } from "./init.js";
+import { startAnimation} from './animation.js';
+import { startTimer } from './timer.js';
 
 export async function detectCollision() {
 
@@ -31,6 +33,7 @@ export async function detectCollision() {
         
         player.remove();
      
+        GAME_DATA.isPaused = true;
 
       console.log("enemy collided")
       }
@@ -45,7 +48,9 @@ export async function detectCollision() {
 
        createPlayer(); // Respawn player
        spawnEnmies(); // Respawn enemies
-       
+       GAME_DATA.isPaused = false;
+       startTimer()
+       startAnimation()
 
      },2000)
 
