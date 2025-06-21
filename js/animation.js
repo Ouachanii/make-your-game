@@ -9,7 +9,8 @@ import { startTimer } from './timer.js';
 
 
 export function update() {
- 
+  
+  updateEnemies();
 
   if (bombedArea(GAME_DATA.playerPos.x, GAME_DATA.playerPos.y) && !GAME_DATA.isPaused ) {
    
@@ -86,7 +87,7 @@ GAME_DATA.isPaused = true
     
   }
 
-  updateEnemies();
+
 
 
   // Remove bombed temporary cells

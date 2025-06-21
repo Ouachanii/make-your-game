@@ -26,4 +26,5 @@ export function startTimer() {
   if (GAME_DATA.isStarted && !GAME_DATA.isPaused && GAME_DATA.totalSeconds > 0) {
     GAME_DATA.timerInterval = setInterval(updateTimer, 1000);
   }
+  
 }

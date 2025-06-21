@@ -13,6 +13,7 @@ export async function detectCollision() {
   }
 
   const player = document.getElementById("player");
+ 
   if (!player) return;
   
   const playerRect = player.getBoundingClientRect();
@@ -66,5 +67,57 @@ export async function detectCollision() {
       return;
     }
   }
+
+ 
+
+if (GAME_DATA.bombThrowed) {
+
+  const bomb = document.querySelector(".bomb");
+
+
+
+console.log("bomb throwed !")
+
+
+
+
+
+const bombRect = bomb.getBoundingClientRect();
+
+const enemies = document.querySelectorAll(".enemy");
+
+
+for (const enemy of enemies) {
+    
+  const enemyRect = enemy.getBoundingClientRect();
+
+    if (
+      bombRect.x < enemyRect.x + enemyRect.width && bombRect.x + playerRect.width > enemyRect.x &&
+      bombRect.y < enemyRect.y + enemyRect.height && bombRect.y + playerRect.height > enemyRect.y
+    )
+    
+    {
+
+      console.log("enemy collided with bomb !!!")
+
+       enemy.remove();
+
+
+
+    }
+
+
+
+  }
+   
 }
+
+
+
+
+}
+
+
+
+
 

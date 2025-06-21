@@ -32,6 +32,9 @@ export function createEnemy() {
 }
 
 
+
+
+
 let lastEnemyMoveTime = 0;
 const ENEMY_MOVE_INTERVAL = 400; 
 

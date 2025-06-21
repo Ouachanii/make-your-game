@@ -22,6 +22,8 @@ export function bomb() {
 
   let gameArea = document.getElementById("game-area");
 
+  GAME_DATA.bombThrowed = true,
+
   gameArea.appendChild(bomb);
 
 
@@ -56,6 +58,7 @@ export function bomb() {
 
       GAME_DATA.bombedCells.length = 0;
 
+      GAME_DATA.bombThrowed = false;
 
     }, 200)
 

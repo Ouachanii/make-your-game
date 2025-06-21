@@ -13,6 +13,7 @@ const continueButton = document.getElementById("continue-button");
 const startMenu = document.getElementById("start-menu");
 const gameOverMenu = document.getElementById("game-over-menu")
 const startButton = document.getElementById("start-button");
+
 const restartButtons = [
   document.getElementById("restart-button"),
   document.getElementById("restart-btn"),

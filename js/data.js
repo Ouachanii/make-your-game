@@ -5,6 +5,7 @@ let GAME_DATA = {
     isStarted: false,
     isPaused: false,
     isDead: false,
+    bombThrowed: false,
 
 
     score: 0,
