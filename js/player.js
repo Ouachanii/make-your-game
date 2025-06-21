@@ -54,7 +54,7 @@ export async function movePlayer(dx, dy) {
   if (!player) return;
   const newX = GAME_DATA.playerPos.x + dy;
   const newY = GAME_DATA.playerPos.y + dx;
-  if (canMoveTo(newX, newY)) {
+  if (canMoveTo(newX, newY) && (newX !== GAME_DATA.bombPos.x || newY !== GAME_DATA.bombPos.y)) {
     player.style.transform = `translate(${newY * GAME_DATA.cellSize}px, ${newX * GAME_DATA.cellSize}px)`;
     GAME_DATA.playerPos.x = newX;
     GAME_DATA.playerPos.y = newY;
@@ -84,5 +84,47 @@ export function handleKeyDown(event) {
       break;
     default:
       return;
+  }
+}
+
+let clicked = false;
+
+export function handleKeyUp(event) {
+  switch (event.key) {
+    case "p":
+      if (!clicked && GAME_DATA.isStarted) {
+        GAME_DATA.isPaused = true;
+        clicked = true
+        document.getElementById("pause-menu").classList.remove("hidden")
+
+
+      } else if (clicked && GAME_DATA.isStarted) {
+        GAME_DATA.isPaused = false
+        clicked = false
+        startAnimation();
+        document.getElementById("pause-menu").classList.add("hidden")
+      }
+      break
+    case "r":
+
+      if (GAME_DATA.isStarted) {
+        pauseMenu.classList.add("hidden")
+        gameOverMenu.classList.add("hidden")
+
+        GAME_DATA.isPaused = false;
+        GAME_DATA.isDead = false;
+        GAME_DATA.isStarted = true;
+        GAME_DATA.totalSeconds = 180;
+        GAME_DATA.animationId = null;
+        init()
+
+        document.getElementById("lives").textContent = `${GAME_DATA.lives}`;
+        document.getElementById("level").textContent = `${GAME_DATA.level}`;
+        document.getElementById("score").textContent = `${GAME_DATA.score}`;
+
+
+        startAnimation()
+        break
+      }
   }
 }

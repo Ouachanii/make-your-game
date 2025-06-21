@@ -22,6 +22,7 @@ let GAME_DATA = {
 
     cells: [],
     wallCells: new Set(),
+    bombPos: {},
     bombedCells: [],
     groundCells: [],
     enemies: [],

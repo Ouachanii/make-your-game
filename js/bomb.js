@@ -18,7 +18,9 @@ export function bomb() {
 
   bomb.dataset.x = GAME_DATA.playerPos.x;
   bomb.dataset.y = GAME_DATA.playerPos.y;
-
+  GAME_DATA.bombPos.x = GAME_DATA.playerPos.x;
+  GAME_DATA.bombPos.y = GAME_DATA.playerPos.y;
+  console.log(GAME_DATA.bombPos.x, GAME_DATA.bombPos.y)
 
   let gameArea = document.getElementById("game-area");
 
@@ -57,12 +59,12 @@ export function bomb() {
       bomb.remove();
 
       GAME_DATA.bombedCells.length = 0;
-
+      GAME_DATA.bombPos = {};
       GAME_DATA.bombThrowed = false;
 
     }, 200)
 
-  }, 1500);
+  }, 2000);
 
 }
 

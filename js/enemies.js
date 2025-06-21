@@ -49,10 +49,9 @@ function moveEnemies() {
     const isValid =
       newX >= 0 && newX < GAME_DATA.rowsLen &&
       newY >= 0 && newY < GAME_DATA.colsLen &&
+      (newX !== GAME_DATA.bombPos.x || newY !== GAME_DATA.bombPos.y) &&
       !GAME_DATA.wallCells.has(`${newX},${newY}`) &&
-      !GAME_DATA.temporaryCells.some(cell => cell.x === newX && cell.y === newY) &&
-      !GAME_DATA.bombedCells.some(cell => cell.x === newX && cell.y === newY);
-
+      !GAME_DATA.temporaryCells.some(cell => cell.x === newX && cell.y === newY)
     if (isValid) {
       enemy.x = newX;
       enemy.y = newY;
@@ -71,8 +70,8 @@ function moveEnemies() {
           tryY >= 0 && tryY < GAME_DATA.colsLen &&
           !GAME_DATA.wallCells.has(`${tryX},${tryY}`) &&
           !GAME_DATA.temporaryCells.some(cell => cell.x === tryX && cell.y === tryY) &&
-          !GAME_DATA.bombedCells.some(cell => cell.x === tryX && cell.y === tryY);
-        if (canMove) {
+          (tryX !== GAME_DATA.bombPos.x || tryY !== GAME_DATA.bombPos.y);
+          if (canMove) {
           enemy.dir = dir;
           enemy.x = tryX;
           enemy.y = tryY;
