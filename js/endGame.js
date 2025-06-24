@@ -3,14 +3,14 @@ import { init } from './init.js';
 
 
 export function HandleWin() {
+    GAME_DATA.isPaused = true
+    GAME_DATA.level += 1;
     const winMenu = document.getElementById("win-menu");
+    if (!winMenu) return;
     winMenu.classList.remove("hidden");
-    winMenu.querySelector("#final-score").textContent = `Final Score: ${GAME_DATA.score}`;
-    winMenu.querySelector("#final-time").textContent = `Time Taken: ${GAME_DATA.totalSeconds} seconds`;
-    winMenu.querySelector("#restart-button").addEventListener("click", () => {
-        init();
-    }
-    );
+    winMenu.querySelector("#final-score").textContent = `${GAME_DATA.score}`;
+    winMenu.querySelector("#final-level").textContent = GAME_DATA.level
+    winMenu.querySelector("#final-time").textContent = `${180 - GAME_DATA.totalSeconds} s`;
 }
 
 export function HandleLose() {
@@ -32,10 +32,6 @@ export function endReached() {
     const timer = document.getElementById("timer");
 
     clearInterval(GAME_DATA.timerInterval);
-    timer.textContent = `You reached the end in ${GAME_DATA.totalSeconds} seconds!`;
-    GAME_DATA.isStarted = false;
-    GAME_DATA.isPaused = true;
 
-    document.getElementById("pause-menu").classList.remove("hidden");
     HandleWin();
 }

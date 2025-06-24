@@ -1,7 +1,7 @@
 import { GAME_DATA } from './data.js';
 import { handleKeyDown, handleKeyUp } from './player.js';
 import { init } from './init.js';
-import { startAnimation} from './animation.js';
+import { startAnimation } from './animation.js';
 import { startTimer } from './timer.js';
 
 
@@ -13,8 +13,19 @@ const continueButton = document.getElementById("continue-button");
 const startMenu = document.getElementById("start-menu");
 const gameOverMenu = document.getElementById("game-over-menu")
 const startButton = document.getElementById("start-button");
+const winMenu = document.getElementById("win-menu");
 
-const restartButtons = [
+winMenu.querySelector("#next-level-btn").addEventListener("click", () => {
+  winMenu.classList.add("hidden");
+  GAME_DATA.isPaused = false;
+  init();
+  console.log("level initialized")
+  startAnimation();
+  console.log("animation started")
+}
+);
+
+ const restartButtons = [
   document.getElementById("restart-button"),
   document.getElementById("restart-btn"),
   document.getElementById("restart-game-over"),
@@ -51,10 +62,13 @@ restartButtons.forEach(restartButton => {
 
     pauseMenu.classList.add("hidden")
     gameOverMenu.classList.add("hidden")
-console.log("restart clicked")
+    winMenu.classList.add("hidden")
+    console.log("restart clicked")
     GAME_DATA.isPaused = false;
     GAME_DATA.isDead = false;
     GAME_DATA.isStarted = true;
+    GAME_DATA.level = 1;
+    GAME_DATA.score = 0;
     GAME_DATA.totalSeconds = 180;
     GAME_DATA.animationId = null;
     init()
@@ -62,7 +76,7 @@ console.log("restart clicked")
     document.getElementById("lives").textContent = `${GAME_DATA.lives}`;
     document.getElementById("level").textContent = `${GAME_DATA.level}`;
     document.getElementById("score").textContent = `${GAME_DATA.score}`;
- 
+
 
     startAnimation()
 

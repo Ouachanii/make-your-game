@@ -15,10 +15,6 @@ export function init() {
   GAME_DATA.enemies = [];
   GAME_DATA.temporaryCells = [];
   GAME_DATA.isDead = false;
-  
-  GAME_DATA.level = 1;
-  GAME_DATA.lives = 3;
-  GAME_DATA.score = 0;
   document.getElementById("timer").textContent = "3:00"
 
 

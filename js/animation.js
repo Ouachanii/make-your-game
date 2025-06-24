@@ -1,4 +1,4 @@
-import { GAME_DATA} from './data.js';
+import { GAME_DATA } from './data.js';
 import { endReached, HandleLose } from './endGame.js';
 import { bombedArea, decoloreCell } from './bomb.js';
 import { createEnemy, updateEnemies } from './enemies.js';
@@ -9,49 +9,47 @@ import { startTimer } from './timer.js';
 
 
 export function update() {
-  
+
   updateEnemies();
 
-  if (bombedArea(GAME_DATA.playerPos.x, GAME_DATA.playerPos.y) && !GAME_DATA.isPaused ) {
-   
+  if (bombedArea(GAME_DATA.playerPos.x, GAME_DATA.playerPos.y) && !GAME_DATA.isPaused) {
+
     let player = document.getElementById("player");
-   
+
     if (player) {
 
       console.log("bomb collided")
       player.remove();
-    
+
     }
- 
+
     let enemies = document.querySelectorAll(".enemy")
 
-     enemies.forEach(enemy => enemy.remove());
+    enemies.forEach(enemy => enemy.remove());
 
     GAME_DATA.lives--;
 
 
-    if (GAME_DATA.lives == 0){
+    if (GAME_DATA.lives == 0) {
 
       document.getElementById("lives").textContent = `${GAME_DATA.lives}`;
       HandleLose();
 
-    console.log("lose handled");
+      console.log("lose handled");
 
       return
-       
-    }else {
-    
 
-    
-    GAME_DATA.score -= 100; // Deduct score for collision
-  
-    if (GAME_DATA.score < 0) GAME_DATA.score = 0; // Prevent negative score
-  
-    document.getElementById("score").textContent = `${GAME_DATA.score}`;
-  
-GAME_DATA.isPaused = true
-     
-  setTimeout( () => {
+    } else {
+
+      GAME_DATA.score -= 100; // Deduct score for collision
+
+      if (GAME_DATA.score < 0) GAME_DATA.score = 0; // Prevent negative score
+
+      document.getElementById("score").textContent = `${GAME_DATA.score}`;
+
+      GAME_DATA.isPaused = true
+
+      setTimeout(() => {
 
         createPlayer(); // Respawn player
 
@@ -64,30 +62,31 @@ GAME_DATA.isPaused = true
         GAME_DATA.animationId = requestAnimationFrame(update);
 
 
-     },3000)
-  
-
-     
-      
+      }, 1500)
 
       if (GAME_DATA.score < 0) GAME_DATA.score = 0; // Prevent negative score
 
       document.getElementById("score").textContent = `${GAME_DATA.score}`;
 
-   
+
       if (GAME_DATA.lives < 0) GAME_DATA.lives = 0; // Prevent negative lives
-     
+
       document.getElementById("lives").textContent = `${GAME_DATA.lives}`;
-     
 
+    }
 
-
-     }
-     
-    
   }
 
-
+  GAME_DATA.enemies.forEach((enemy, index) => {
+    if (bombedArea(enemy.x, enemy.y)) {
+      if (enemy.el) {
+        enemy.el.remove();
+      }
+      GAME_DATA.enemies.splice(index, 1);
+      GAME_DATA.score += 100;
+      document.getElementById("score").textContent = `${GAME_DATA.score}`;
+    }
+  })
 
 
   // Remove bombed temporary cells
@@ -95,9 +94,9 @@ GAME_DATA.isPaused = true
     if (bombedArea(cell.x, cell.y)) {
 
       GAME_DATA.score += 100;
-      
+
       document.getElementById("score").textContent = GAME_DATA.score;
-      
+
       decoloreCell(cell.x, cell.y);
       return false;
     }
@@ -117,11 +116,11 @@ GAME_DATA.isPaused = true
 
 
 
-if(!GAME_DATA.isPaused) {
+  if (!GAME_DATA.isPaused) {
 
-  GAME_DATA.animationId = requestAnimationFrame(update);
-
-}
+    GAME_DATA.animationId = requestAnimationFrame(update);
+    console.log(GAME_DATA.animationId)
+  }
 
 
 
@@ -130,15 +129,18 @@ if(!GAME_DATA.isPaused) {
     GAME_DATA.animationId = null;
   }
 
- // console.log(GAME_DATA.animationId)
+  // console.log(GAME_DATA.animationId)
 }
 
 
 
 
 export function startAnimation() {
-  if (!GAME_DATA.animationId && !GAME_DATA.isPaused) {
-
+  if (GAME_DATA.animationId) {
+    cancelAnimationFrame(GAME_DATA.animationId);
+    GAME_DATA.animationId = null;
+  }
+  if (!GAME_DATA.isPaused) {
     update();
   }
 }
