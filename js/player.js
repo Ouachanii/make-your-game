@@ -2,18 +2,18 @@ const gameScreen = document.getElementById("game-area");
 import { GAME_DATA } from './data.js';
 import { detectCollision } from './collision.js';
 import { bomb } from './bomb.js';
-import { startAnimation} from './animation.js';
+import { startAnimation } from './animation.js';
 import { init } from './init.js';
 
 export function createPlayer() {
   let player = document.createElement("img");
-
   player.src = "assets/player.png"
-
   player.className = "player"
-
   player.id = "player"
 
+  // Responsive size
+  player.style.width = `${GAME_DATA.cellSize}px`;
+  player.style.height = `${GAME_DATA.cellSize}px`;
 
   gameScreen.appendChild(player);
 
@@ -27,7 +27,7 @@ export function createPlayer() {
 
   const spawnCell = GAME_DATA.groundCells[0];
 
-  player.style.transform = `translate(${(spawnCell.x * GAME_DATA.cellSize)}px, ${spawnCell.y * GAME_DATA.cellSize}px)`
+  player.style.transform = `translate(${spawnCell.y * GAME_DATA.cellSize}px, ${spawnCell.x * GAME_DATA.cellSize}px)`
 
   GAME_DATA.playerPos = { x: spawnCell.x, y: spawnCell.y }
 
@@ -87,6 +87,8 @@ export function handleKeyDown(event) {
   }
 }
 
+const pauseMenu = document.getElementById("pause-menu");
+const gameOverMenu = document.getElementById("game-over-menu");
 let clicked = false;
 
 export function handleKeyUp(event) {

@@ -4,59 +4,27 @@ const gameScreen = document.getElementById("game-area");
 
 
 function makeGrid() {
-
-
-
-  //const gameScreen = document.getElementById("game-area")
-
-  const screenWidth = gameScreen.offsetWidth;
-
-  const screenHeight = gameScreen.offsetHeight;
-
-
-  gameScreen.style.gridTemplateColumns = `repeat(${screenWidth}, ${GAME_DATA.cellSize}px)`;
-
-  gameScreen.style.gridTemplateRows = `repeat(${screenHeight}, ${GAME_DATA.cellSize}px)`;
-
-
-  GAME_DATA.colsLen = screenWidth / GAME_DATA.cellSize;
-  GAME_DATA.rowsLen = screenHeight / GAME_DATA.cellSize;
-
-  console.log("row col length is:", GAME_DATA.rowsLen, GAME_DATA.colsLen)
-
-
+  // Clear previous grid
+  gameScreen.innerHTML = "";
+  GAME_DATA.colsLen = 15;
+  GAME_DATA.rowsLen = 13;
+  // Set up CSS Grid
+  gameScreen.style.display = "grid";
+  gameScreen.style.gridTemplateColumns = `repeat(15, var(--cell-size))`;
+  gameScreen.style.gridTemplateRows = `repeat(13, var(--cell-size))`;
   for (let x = 0; x < GAME_DATA.rowsLen; x++) {
     for (let y = 0; y < GAME_DATA.colsLen; y++) {
-
-
-
-
-      let cell = document.createElement("div")
-
-      cell.classList = "cell";
-
+      let cell = document.createElement("div");
+      cell.classList = "cell ground";
       cell.style.width = `${GAME_DATA.cellSize}px`;
-
       cell.style.height = `${GAME_DATA.cellSize}px`;
-
-      cell.dataset.coordinates = `${x},${y}`; //,${index}`;
-
+      cell.dataset.coordinates = `${x},${y}`;
       cell.dataset.x = x;
       cell.dataset.y = y;
-     // console.log(cell)
-
-      //cell.style.border = '1px solid #444';
-
-      cell.classList = "ground"
-
-      gameScreen.appendChild(cell)
-
-
-
+      gameScreen.appendChild(cell);
     }
-
   }
-
+  updateAllCellSizes();
 }
 
 function posCells() {
@@ -70,7 +38,7 @@ function posCells() {
 
     let parts = coordinates.split(",")
 
-    divCell.textContent = `${parts[0]},  ${parts[1]}`   // dells coordinates
+    //divCell.textContent = `${parts[0]},  ${parts[1]}`   // dells coordinates
 
 
     GAME_DATA.cells.push({
@@ -154,4 +122,17 @@ function setTemporaryCells() {
 
 }
 
-export { makeGrid, posCells, setUnbreakableCells, setTemporaryCells };
+function updateAllCellSizes() {
+  // Update all grid cells
+  document.querySelectorAll('.cell, .ground, .wall, .wood, .endCell').forEach(cell => {
+    cell.style.width = `${GAME_DATA.cellSize}px`;
+    cell.style.height = `${GAME_DATA.cellSize}px`;
+  });
+  // Update player, enemies, bombs, explosions
+  document.querySelectorAll('.player, .enemy, .bomb, .explosion').forEach(el => {
+    el.style.width = `${GAME_DATA.cellSize}px`;
+    el.style.height = `${GAME_DATA.cellSize}px`;
+  });
+}
+
+export { makeGrid, posCells, setUnbreakableCells, setTemporaryCells, updateAllCellSizes };

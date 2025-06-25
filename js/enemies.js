@@ -4,17 +4,15 @@ import { detectCollision } from "./collision.js";
 const gameScreen = document.getElementById("game-area");
 
 const ENEMY_DIRECTIONS = [
-  {dx: 0, dy: -1}, // up
-  {dx: 0, dy: 1},  // down
-  {dx: -1, dy: 0}, // left
-  {dx: 1, dy: 0},  // right
+  { dx: 0, dy: -1 }, // up
+  { dx: 0, dy: 1 },  // down
+  { dx: -1, dy: 0 }, // left
+  { dx: 1, dy: 0 },  // right
 ];
 
 export function createEnemy() {
   if (!GAME_DATA.groundCells) return;
-
   const enemy = document.createElement("img");
-
   enemy.src = "assets/enm.png";
   enemy.className = "enemy";
   enemy.style.position = "absolute";
@@ -23,9 +21,7 @@ export function createEnemy() {
   enemy.style.transform = `translate(${GAME_DATA.enmSpawnCell.y * GAME_DATA.cellSize}px, ${GAME_DATA.enmSpawnCell.x * GAME_DATA.cellSize}px)`;
   enemy.dataset.x = GAME_DATA.enmSpawnCell.x;
   enemy.dataset.y = GAME_DATA.enmSpawnCell.y;
-
   gameScreen.appendChild(enemy);
-
   // Assign a random initial direction
   const initialDir = ENEMY_DIRECTIONS[Math.floor(Math.random() * ENEMY_DIRECTIONS.length)];
   GAME_DATA.enemies.push({ el: enemy, x: GAME_DATA.enmSpawnCell.x, y: GAME_DATA.enmSpawnCell.y, dir: initialDir });
@@ -34,13 +30,11 @@ export function createEnemy() {
 
 
 
-
 let lastEnemyMoveTime = 0;
-const ENEMY_MOVE_INTERVAL = 400; 
+const ENEMY_MOVE_INTERVAL = 400;
 
 function moveEnemies() {
   GAME_DATA.enemies.forEach(enemy => {
-
     let { dx, dy } = enemy.dir;
     let newX = enemy.x + dy;
     let newY = enemy.y + dx;
@@ -61,7 +55,7 @@ function moveEnemies() {
       // If not valid, change direction randomly
 
       const shuffled = ENEMY_DIRECTIONS.sort(() => Math.random() - 0.5);
-      
+
       for (let dir of shuffled) {
         const tryX = enemy.x + dir.dy;
         const tryY = enemy.y + dir.dx;
@@ -71,7 +65,7 @@ function moveEnemies() {
           !GAME_DATA.wallCells.has(`${tryX},${tryY}`) &&
           !GAME_DATA.temporaryCells.some(cell => cell.x === tryX && cell.y === tryY) &&
           (tryX !== GAME_DATA.bombPos.x || tryY !== GAME_DATA.bombPos.y);
-          if (canMove) {
+        if (canMove) {
           enemy.dir = dir;
           enemy.x = tryX;
           enemy.y = tryY;

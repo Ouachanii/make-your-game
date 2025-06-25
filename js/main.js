@@ -3,6 +3,7 @@ import { handleKeyDown, handleKeyUp } from './player.js';
 import { init } from './init.js';
 import { startAnimation } from './animation.js';
 import { startTimer } from './timer.js';
+import { updateAllCellSizes } from './grid.js';
 
 
 document.addEventListener('DOMContentLoaded', init())
@@ -19,13 +20,13 @@ winMenu.querySelector("#next-level-btn").addEventListener("click", () => {
   winMenu.classList.add("hidden");
   GAME_DATA.isPaused = false;
   init();
-  console.log("level initialized")
+  //console.log("level initialized")
   startAnimation();
-  console.log("animation started")
+  //console.log("animation started")
 }
 );
 
- const restartButtons = [
+const restartButtons = [
   document.getElementById("restart-button"),
   document.getElementById("restart-btn"),
   document.getElementById("restart-game-over"),
@@ -40,7 +41,7 @@ startButton.addEventListener("click", () => {
   GAME_DATA.isDead = false;
 
   startMenu.classList.add("hidden");
-  console.log(GAME_DATA.isStarted)
+  //console.log(GAME_DATA.isStarted)
   startTimer()
   startAnimation()
 
@@ -63,7 +64,7 @@ restartButtons.forEach(restartButton => {
     pauseMenu.classList.add("hidden")
     gameOverMenu.classList.add("hidden")
     winMenu.classList.add("hidden")
-    console.log("restart clicked")
+    //console.log("restart clicked")
     GAME_DATA.isPaused = false;
     GAME_DATA.isDead = false;
     GAME_DATA.isStarted = true;
@@ -102,4 +103,43 @@ document.addEventListener('keyup', (e) => {
     e.preventDefault();
   }
   handleKeyUp(e);
+});
+
+function updateAllPositions() {
+  // Update player position
+  const player = document.getElementById('player');
+  if (player && GAME_DATA.playerPos) {
+    player.style.transform = `translate(${GAME_DATA.playerPos.y * GAME_DATA.cellSize}px, ${GAME_DATA.playerPos.x * GAME_DATA.cellSize}px)`;
+  }
+  // Update enemies
+  if (GAME_DATA.enemies) {
+    GAME_DATA.enemies.forEach(enemy => {
+      if (enemy.el) {
+        enemy.el.style.transform = `translate(${enemy.y * GAME_DATA.cellSize}px, ${enemy.x * GAME_DATA.cellSize}px)`;
+      }
+    });
+  }
+  // Update bombs/explosions if you use similar positioning
+  document.querySelectorAll('.bomb, .explosion').forEach(el => {
+    if (el.dataset.x && el.dataset.y) {
+      el.style.transform = `translate(${el.dataset.y * GAME_DATA.cellSize}px, ${el.dataset.x * GAME_DATA.cellSize}px)`;
+    }
+  });
+}
+
+function updateCellSize() {
+  const gameArea = document.querySelector('.game-area');
+  if (!gameArea) return;
+  const width = gameArea.offsetWidth;
+  const height = gameArea.offsetHeight;
+  GAME_DATA.cellSize = Math.min(Math.floor(width / 15), Math.floor(height / 13));
+  document.documentElement.style.setProperty('--cell-size', `${GAME_DATA.cellSize}px`);
+  updateAllCellSizes();
+  updateAllPositions();
+}
+
+window.addEventListener('resize', updateCellSize);
+document.addEventListener('DOMContentLoaded', () => {
+  updateCellSize();
+  init();
 });

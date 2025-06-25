@@ -18,7 +18,7 @@ export function update() {
 
     if (player) {
 
-      console.log("bomb collided")
+      //console.log("bomb collided")
       player.remove();
 
     }
@@ -35,7 +35,7 @@ export function update() {
       document.getElementById("lives").textContent = `${GAME_DATA.lives}`;
       HandleLose();
 
-      console.log("lose handled");
+      //console.log("lose handled");
 
       return
 
@@ -119,7 +119,7 @@ export function update() {
   if (!GAME_DATA.isPaused) {
 
     GAME_DATA.animationId = requestAnimationFrame(update);
-    console.log(GAME_DATA.animationId)
+    //console.log(GAME_DATA.animationId)
   }
 
 

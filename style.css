@@ -7,6 +7,7 @@
     --text-color: #f5eef8;
     --background-dark: #1a1a2e;
     --cell-border: #8e44ad;
+    --cell-size: clamp(24px, calc(80vw / 15), 50px);
 }
 
 
@@ -35,7 +36,7 @@ header {
     text-align: center;
     background: rgba(74, 35, 90, 0.7);
     border-bottom: 2px solid var(--light-purple);
-
+    height: 5%;
 }
 
 .game-header h1 {
@@ -49,35 +50,28 @@ header {
 
 
 div.game-area {
-    /* display: grid; */
-    /* padding-top: 40px; */
     position: relative;
-    padding-bottom: 40px;
-    display: flex;
-    flex-wrap: wrap;
-
-
-    width: 900px;
-    height: 780px;
-    /*background-color: #111;*/
-
-    margin: 20px;
+    display: grid;
+    aspect-ratio: 15 / 13;
+    margin: 2vw auto;
     border-radius: 15px;
-
     box-shadow: 0 0 30px rgba(154, 18, 179, 0.5);
     background: linear-gradient(145deg, var(--dark-purple), var(--primary-color));
+    overflow: hidden;
+    height: 75%;
+}
 
-
-
+.cell, .ground, .wall, .wood, .endCell,
+.player, .enemy, .bomb, .explosion {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  transition: width 0.2s, height 0.2s;
 }
 
 .player {
-    width: 60px;
-    /* Must match CELL_SIZE */
-    height: 60px;
+    width: 50px;
+    height: 50px;
     position: absolute;
-
-    /* Center the sprite */
 
 }
 
@@ -98,6 +92,7 @@ div.scoreboard {
     background: rgba(106, 13, 173, 0.3);
     border-radius: 10px;
     border: 1px solid var(--light-purple);
+    height: 9%;
 }
 
 .scoreboard-item {
@@ -121,15 +116,15 @@ div.scoreboard {
 
 #player {
     transition: transform 0.30s ease-out;
-    /* Adjust time for speed */
+    
     will-change: transform;
-    /* Optimize performance */
+    
 }
 
 .bomb {
     position: absolute;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     padding-right: 20px;
     z-index: 2;
 
@@ -213,6 +208,7 @@ div.scoreboard {
     gap: 15px;
     margin-top: 30px;
     margin-bottom: 30px;
+    height: 7%;
 }
 
 .control-btn {
@@ -245,6 +241,7 @@ div.scoreboard {
     border-top: 1px solid var(--light-purple);
     font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.7);
+    height: 4%;
 }
 
 
@@ -341,5 +338,12 @@ div.scoreboard {
 
     .scoreboard-item {
         min-width: 45%;
+    }
+
+    div.game-area {
+        min-width: 0;
+        width: 98vw;
+        margin: 1vw auto;
+        border-radius: 8px;
     }
 }

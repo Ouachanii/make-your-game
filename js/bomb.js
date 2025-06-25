@@ -20,7 +20,7 @@ export function bomb() {
   bomb.dataset.y = GAME_DATA.playerPos.y;
   GAME_DATA.bombPos.x = GAME_DATA.playerPos.x;
   GAME_DATA.bombPos.y = GAME_DATA.playerPos.y;
-  console.log(GAME_DATA.bombPos.x, GAME_DATA.bombPos.y)
+  //console.log(GAME_DATA.bombPos.x, GAME_DATA.bombPos.y)
 
   let gameArea = document.getElementById("game-area");
 
@@ -82,7 +82,7 @@ export function decoloreCell(x, y) {
   for (let i = 0; i < GAME_DATA.cells.length; i++) {
 
     if (GAME_DATA.cells[i].x == x && GAME_DATA.cells[i].y == y) {
-      console.log(GAME_DATA.cells[i])
+      //console.log(GAME_DATA.cells[i])
       GAME_DATA.cells[i].div.classList.remove("wood");
       GAME_DATA.cells[i].div.classList.add("ground");
 

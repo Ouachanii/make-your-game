@@ -36,7 +36,7 @@ export async function detectCollision() {
 
         GAME_DATA.isPaused = true;
 
-        console.log("enemy collided")
+        //console.log("enemy collided")
       }
 
       for (const enemy of enemies) {
