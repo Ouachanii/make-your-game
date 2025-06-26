@@ -1,6 +1,5 @@
 import { makeGrid, posCells, setUnbreakableCells, setTemporaryCells } from './grid.js';
 import { createPlayer } from './player.js';
-import { startTimer } from './timer.js';
 import { GAME_DATA, level } from './data.js';
 import { createEnemy } from './enemies.js';
 

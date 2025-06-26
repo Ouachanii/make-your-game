@@ -89,6 +89,7 @@ export function handleKeyDown(event) {
 
 const pauseMenu = document.getElementById("pause-menu");
 const gameOverMenu = document.getElementById("game-over-menu");
+const winMenu = document.getElementById("win-menu")
 let clicked = false;
 
 export function handleKeyUp(event) {
@@ -110,13 +111,17 @@ export function handleKeyUp(event) {
     case "r":
 
       if (GAME_DATA.isStarted) {
-        pauseMenu.classList.add("hidden")
-        gameOverMenu.classList.add("hidden")
+        if (pauseMenu) pauseMenu.classList.add("hidden")
+        if (gameOverMenu) gameOverMenu.classList.add("hidden")
+        if (winMenu) winMenu.classList.add("hidden")
 
         GAME_DATA.isPaused = false;
         GAME_DATA.isDead = false;
         GAME_DATA.isStarted = true;
         GAME_DATA.totalSeconds = 180;
+        GAME_DATA.level = 1;
+        GAME_DATA.lives = 3;
+        GAME_DATA.score = 0;
         GAME_DATA.animationId = null;
         init()
 
