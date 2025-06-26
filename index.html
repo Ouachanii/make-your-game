@@ -9,12 +9,14 @@
   </head>
 
   <body>
-    <header>
+    <header class="game-header">
       <h1>Bomberman</h1>
     </header>
-
     <div class="game-screen">
       <div class="scoreboard">
+        <header class="game-header" id="scoreboard-header">
+          <h2 class="h2">Scoreboard</h2>
+        </header>
         <div class="scoreboard-item">
           <span class="label">Level:</span>
           <span id="level" class="value">1</span>
@@ -29,16 +31,27 @@
         </div>
         <div class="scoreboard-item">
           <span class="label">Time:</span>
-          <span id="timer" class="value">00:00</span>
+          <span id="timer" class="value"></span>
         </div>
       </div>
 
       <!-- gamee area for displaying the game -->
-      <div class="game-area" id="game-area"></div>
+      <div class="game-container">
+        <div class="game-area" id="game-area"></div>
 
-      <div class="controls">
-        <button id="pause-btn" class="control-btn">Pause</button>
-        <button id="restart-btn" class="control-btn">Restart</button>
+        <div class="controls">
+          <button id="pause-btn" class="control-btn">Pause</button>
+          <button id="restart-btn" class="control-btn">Restart</button>
+        </div>
+      </div>
+      <div class="game-info">
+        <header class="game-header" id="game-info-header">
+          <h2 class="h2">HOW TO PLAY:</h2>
+        </header>
+        <div><span>'arrow keys':</span> <span>move the player.</span></div>
+        <div><span>'Space':</span> <span>place a bomb.</span></div>
+        <div><span>'P':</span> <span>pause the game.</span></div>
+        <div><span>'R':</span> <span>restart the game.</span></div>
       </div>
     </div>
 
@@ -87,9 +100,7 @@
 
     <div id="fps-counter">FPS: --<br />Frame: -- ms</div>
 
-    <footer>
-      <p class="footer">&copy; 2025 Bomberman Game</p>
-    </footer>
+
 
     <script type="module" src="js/main.js"></script>
   </body>
