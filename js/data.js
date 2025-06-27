@@ -14,7 +14,7 @@ let GAME_DATA = {
 
     enemiesCount: 0,
 
-    totalSeconds: 180,
+    totalSeconds: 10,
     timerInterval: null,
 
     lastTime: Date.now(),
