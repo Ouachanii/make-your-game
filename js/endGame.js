@@ -9,7 +9,7 @@ export function HandleWin() {
     if (!winMenu) return;
     winMenu.classList.remove("hidden");
     winMenu.querySelector("#final-score").textContent = `${GAME_DATA.score}`;
-    winMenu.querySelector("#final-level").textContent = GAME_DATA.level
+    winMenu.querySelector("#final-level").textContent = GAME_DATA.level;
     winMenu.querySelector("#final-time").textContent = `${180 - GAME_DATA.totalSeconds} s`;
 }
 

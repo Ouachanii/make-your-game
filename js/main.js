@@ -72,9 +72,7 @@ restartButtons.forEach(restartButton => {
 
       init();
 
-      document.getElementById("lives").textContent = `${GAME_DATA.lives}`;
-      document.getElementById("level").textContent = `${GAME_DATA.level}`;
-      document.getElementById("score").textContent = `${GAME_DATA.score}`;
+      
 
       startAnimation()
     }
@@ -88,6 +86,9 @@ if (winMenu) {
       winMenu.classList.add("hidden");
       GAME_DATA.isPaused = false;
       init();
+      document.getElementById("lives").textContent = `${GAME_DATA.lives}`;
+      document.getElementById("level").textContent = `${GAME_DATA.level}`;
+      document.getElementById("score").textContent = `${GAME_DATA.score}`;
       startAnimation();
     });
   }
