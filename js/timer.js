@@ -1,4 +1,5 @@
 import { GAME_DATA } from "./data.js";
+import { HandleLose } from "./endGame.js";
 
 export function startTimer(onTimerEnd) {
   const timer = document.getElementById("timer");
@@ -12,6 +13,11 @@ export function startTimer(onTimerEnd) {
 
     if (GAME_DATA.isStarted && !GAME_DATA.isPaused && GAME_DATA.totalSeconds > 0) {
       GAME_DATA.totalSeconds--;
+      if (GAME_DATA.totalSeconds <= 0) {
+        HandleLose();
+        GAME_DATA.isStarted = false;
+        return;
+      }
       const minutes = Math.floor(GAME_DATA.totalSeconds / 60);
       const seconds = GAME_DATA.totalSeconds % 60;
       timer.textContent = `${minutes}:${seconds.toString().padStart(2, "0")}`;

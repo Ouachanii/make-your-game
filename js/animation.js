@@ -62,7 +62,7 @@ export function update(now = performance.now()) {
     GAME_DATA.lives--;
     if (GAME_DATA.lives < 0) GAME_DATA.lives = 0;
     if (livesEl && livesEl.textContent !== `${GAME_DATA.lives}`) livesEl.textContent = `${GAME_DATA.lives}`;
-    if (GAME_DATA.lives === 0) {
+    if (GAME_DATA.lives === 0 || GAME_DATA.totalSeconds <= 0) {
       HandleLose();
       return;
     } else {
