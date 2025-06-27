@@ -56,7 +56,7 @@ README.md           # This file
 
 ## Screenshots
 
-![Game Screenshot](assets/screenshot.png)
+![Game Screenshot](assets/screenshot.PNG)
 
 ## License
 
