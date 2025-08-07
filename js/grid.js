@@ -1,4 +1,5 @@
-import { GAME_DATA, level } from "./data.js";
+import { GAME_DATA } from "./data.js";
+import { level } from "./levels.js";
 
 const gameScreen = document.getElementById("game-area");
 
@@ -81,9 +82,13 @@ function setUnbreakableCells() {
 
 
 
+  // Get current level data for end position
+  const currentLevel = level[GAME_DATA.level - 1] || level[0];
+  const endPos = currentLevel.endPos || GAME_DATA.endPose;
+
   for (let i = 0; i < GAME_DATA.cells.length; i++) {
 
-    if (GAME_DATA.cells[i].x === GAME_DATA.endPose.x && GAME_DATA.cells[i].y === GAME_DATA.endPose.y) {
+    if (GAME_DATA.cells[i].x === endPos.x && GAME_DATA.cells[i].y === endPos.y) {
 
       GAME_DATA.cells[i].div.classList = "endCell"
     }

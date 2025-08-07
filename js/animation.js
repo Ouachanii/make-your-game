@@ -2,10 +2,10 @@ import { GAME_DATA } from './data.js';
 import { endReached, HandleLose } from './endGame.js';
 import { bombedArea, decoloreCell } from './bomb.js';
 import { updateEnemies } from './enemies.js';
-import { spawnEnmies } from './init.js';
-import { createPlayer } from './player.js';
+import { spawnEnemies } from './init.js';
+import { createPlayer, updatePlayerSprite, setPlayerIdle } from './player.js';
 import { startTimer, stopTimer } from './timer.js';
-
+import { level } from './levels.js';
 // FPS diagnostics state
 let lastFrameTime = performance.now();
 let frameCount = 0;
@@ -43,7 +43,6 @@ function updateFPS(now) {
     fpsLastUpdate = now;
   }
 }
-
 export function update(now = performance.now()) {
   updateFPS(now);
 
@@ -51,6 +50,8 @@ export function update(now = performance.now()) {
   const livesEl = document.getElementById("lives");
   const scoreEl = document.getElementById("score");
 
+  // Update player sprite animation
+  updatePlayerSprite(now);
   updateEnemies();
 
   // Player hit by bomb
@@ -71,7 +72,7 @@ export function update(now = performance.now()) {
       GAME_DATA.isPaused = true;
       setTimeout(() => {
         createPlayer();
-        spawnEnmies();
+        spawnEnemies();
         GAME_DATA.isPaused = false;
         GAME_DATA.animationId = requestAnimationFrame(update);
       }, 1500);
@@ -101,7 +102,10 @@ export function update(now = performance.now()) {
   });
 
   // End reached
-  if (GAME_DATA.playerPos.x === GAME_DATA.endPose.x && GAME_DATA.playerPos.y === GAME_DATA.endPose.y) {
+  const currentLevel = level[GAME_DATA.level - 1] || level[0];
+  const endPos = currentLevel?.endPos || GAME_DATA.endPose;
+
+  if (endPos && GAME_DATA.playerPos && GAME_DATA.playerPos.x === endPos.x && GAME_DATA.playerPos.y === endPos.y) {
     setTimeout(() => {
       const player = document.getElementById("player");
       if (player) player.remove();

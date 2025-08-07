@@ -64,6 +64,19 @@ header {
     font-size: 2.5rem;
     flex-direction: row;
     justify-content: space-around;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.scoreboard-item .label {
+    font-weight: bold;
+    color: var(--light-purple);
+    margin-right: 10px;
+}
+
+.scoreboard-item .value {
+    color: var(--text-color);
+    word-break: break-word;
 }
 
 .scoreboard,
@@ -113,10 +126,9 @@ div.game-area {
 }
 
 .player {
-    width: 50px;
-    height: 50px;
+    width: var(--cell-size);
+    height: var(--cell-size);
     position: absolute;
-
 }
 
 .label {

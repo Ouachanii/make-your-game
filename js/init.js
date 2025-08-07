@@ -1,6 +1,7 @@
 import { makeGrid, posCells, setUnbreakableCells, setTemporaryCells } from './grid.js';
 import { createPlayer } from './player.js';
-import { GAME_DATA, level } from './data.js';
+import { GAME_DATA } from './data.js';
+import { level } from './levels.js';
 import { createEnemy } from './enemies.js';
 
 const gameScreen = document.getElementById("game-area");
@@ -14,19 +15,26 @@ export function init() {
   GAME_DATA.enemies = [];
   GAME_DATA.temporaryCells = [];
   GAME_DATA.isDead = false;
-  document.getElementById("timer").textContent = "3:00"
-
+  
+  // Get current level data
+  const currentLevel = level[GAME_DATA.level - 1] || level[0];
+  
+  // Set timer based on level
+  GAME_DATA.totalSeconds = currentLevel.timeLimit || 180;
+  const minutes = Math.floor(GAME_DATA.totalSeconds / 60);
+  const seconds = GAME_DATA.totalSeconds % 60;
+  document.getElementById("timer").textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
   makeGrid();
   posCells();
   setUnbreakableCells();
   setTemporaryCells();
   createPlayer();
-  spawnEnmies();
+  spawnEnemies();
 }
 
 
-export function spawnEnmies() {
+export function spawnEnemies() {
 
   
 

@@ -2,7 +2,7 @@ import { GAME_DATA } from './data.js';
 
 export function bomb() {
 
-  if(GAME_DATA.isPaused || !GAME_DATA.isStarted || Date.now() - GAME_DATA.lastBomb < 2000) return;
+  if (GAME_DATA.isPaused || !GAME_DATA.isStarted || Date.now() - GAME_DATA.lastBomb < 2000) return;
   GAME_DATA.lastBomb = Date.now();
 
 
@@ -26,7 +26,7 @@ export function bomb() {
 
   GAME_DATA.bombThrowed = true,
 
-  gameArea.appendChild(bomb);
+    gameArea.appendChild(bomb);
 
 
 
@@ -37,8 +37,8 @@ export function bomb() {
     bomb.style.width = `${3 * GAME_DATA.cellSize}px`;
     bomb.style.height = `${3 * GAME_DATA.cellSize}px`;
 
-    bomb.style.marginTop = "-60px";
-    bomb.style.marginLeft = "-60px";
+    bomb.style.marginTop = `-${GAME_DATA.cellSize}px`;
+    bomb.style.marginLeft = `-${GAME_DATA.cellSize}px`;
 
 
     GAME_DATA.bombedCells.push({ x: parseInt(bomb.dataset.x), y: parseInt(bomb.dataset.y) });
@@ -51,7 +51,7 @@ export function bomb() {
 
     GAME_DATA.bombedCells.push({ x: parseInt(bomb.dataset.x), y: parseInt(bomb.dataset.y) + 1 }); //right
 
-     
+
 
 
     setTimeout(() => {

@@ -1,4 +1,5 @@
 import { GAME_DATA } from './data.js';
+import { level } from './levels.js';
 import { handleKeyDown, handleKeyUp } from './player.js';
 import { init } from './init.js';
 import { startAnimation } from './animation.js';
@@ -15,6 +16,7 @@ const winMenu = document.getElementById("win-menu");
 document.addEventListener("DOMContentLoaded", () => {
 
   updateCellSize();
+  updateLevelDisplay();
   init();
 
 })
@@ -70,9 +72,12 @@ restartButtons.forEach(restartButton => {
       GAME_DATA.lives = 3;
       GAME_DATA.score = 0;
 
+      // Update level display
+      updateLevelDisplay();
+
       init();
 
-      
+
 
       startAnimation()
     }
@@ -85,10 +90,23 @@ if (winMenu) {
     nextLevelBtn.addEventListener("click", () => {
       winMenu.classList.add("hidden");
       GAME_DATA.isPaused = false;
+      GAME_DATA.isStarted = true;
+      GAME_DATA.level++;
+      GAME_DATA.bombThrowed = false;
+      GAME_DATA.bombedCells = [];
+      GAME_DATA.bombPos = {};
+
       init();
-      document.getElementById("lives").textContent = `${GAME_DATA.lives}`;
-      document.getElementById("level").textContent = `${GAME_DATA.level}`;
-      document.getElementById("score").textContent = `${GAME_DATA.score}`;
+
+      const livesEl = document.getElementById("lives");
+      const levelEl = document.getElementById("level");
+      const scoreEl = document.getElementById("score");
+
+      if (livesEl) livesEl.textContent = `${GAME_DATA.lives}`;
+      if (levelEl) levelEl.textContent = `${GAME_DATA.level}`;
+      if (scoreEl) scoreEl.textContent = `${GAME_DATA.score}`;
+
+      updateLevelDisplay();
       startAnimation();
     });
   }
@@ -135,6 +153,26 @@ function updateAllPositions() {
       el.style.transform = `translate(${el.dataset.y * GAME_DATA.cellSize}px, ${el.dataset.x * GAME_DATA.cellSize}px)`;
     }
   });
+}
+
+function updateLevelDisplay() {
+  const currentLevel = level[GAME_DATA.level - 1] || level[0];
+  const levelNameElement = document.getElementById("level-name");
+  const levelDescriptionElement = document.getElementById("level-description");
+
+  if (levelNameElement) {
+    levelNameElement.textContent = currentLevel.name;
+  }
+
+  if (levelDescriptionElement) {
+    levelDescriptionElement.textContent = currentLevel.description;
+  }
+
+  // Update level info in menus
+  const finalLevelElement = document.getElementById("final-level");
+  if (finalLevelElement) {
+    finalLevelElement.textContent = GAME_DATA.level;
+  }
 }
 
 function updateCellSize() {
