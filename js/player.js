@@ -1,5 +1,4 @@
-import { GAME_DATA } from './data.js';
-import { level } from './levels.js';
+import { GAME_DATA, level } from './data.js';
 import { detectCollision } from './collision.js';
 import { bomb } from './bomb.js';
 import { startAnimation } from './animation.js';
@@ -13,6 +12,11 @@ let gameScreen;
 let playerSprite;
 
 
+// Animation state
+let lastFrameTime = 0;
+const ANIMATION_FRAME_DURATION = 1000 / 60; // 60 FPS animation
+let accumulatedTime = 0;
+
 export function createPlayer() {
   // Initialize game screen reference
   gameScreen = document.getElementById("game-area");
@@ -20,15 +24,16 @@ export function createPlayer() {
     console.error("Game area element not found!");
     return;
   }
-  
+
   let player = document.createElement("div");
   player.className = "player"
   player.id = "player"
 
-  // Initialize sprite animation system
+  // Initialize sprite animation system with frame timing
   const cellSize = GAME_DATA.cellSize;
   playerSprite = new playerAnimation("assets/player.png", cellSize, cellSize, 16);
-  
+  lastFrameTime = performance.now();
+
   // Apply initial sprite
   playerSprite.applyToElement(player);
 

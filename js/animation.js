@@ -3,10 +3,31 @@ import { endReached, HandleLose } from './endGame.js';
 import { bombedArea, decoloreCell } from './bomb.js';
 import { updateEnemies } from './enemies.js';
 import { spawnEnemies } from './init.js';
-import { createPlayer, updatePlayerSprite, setPlayerIdle } from './player.js';
+import { createPlayer, updatePlayerSprite } from './player.js';
 import { startTimer, stopTimer } from './timer.js';
-import { level } from './levels.js';
-// FPS diagnostics state
+
+// Constants for the game loop
+const FRAME_RATE = 60;
+const FRAME_TIME = 1000 / FRAME_RATE;
+const MAX_FRAME_TIME = 5 * FRAME_TIME; // Prevent spiral of death
+
+// Game state flags
+let scoreUpdateNeeded = false;
+let cachedPlayerEl = null;
+let cachedLivesEl = null;
+let cachedScoreEl = null;
+
+// Animation state
+let previousTime = 0;
+let lag = 0;
+
+// Initialize cached elements
+function initCachedElements() {
+  cachedPlayerEl = document.getElementById("player");
+  cachedLivesEl = document.getElementById("lives");
+  cachedScoreEl = document.getElementById("score");
+}
+
 let lastFrameTime = performance.now();
 let frameCount = 0;
 let fps = 0;
@@ -43,43 +64,45 @@ function updateFPS(now) {
     fpsLastUpdate = now;
   }
 }
-export function update(now = performance.now()) {
-  updateFPS(now);
-
-  const playerEl = document.getElementById("player");
-  const livesEl = document.getElementById("lives");
-  const scoreEl = document.getElementById("score");
-
-  // Update player sprite animation
-  updatePlayerSprite(now);
+function gameUpdate() {
+  updatePlayerSprite(performance.now());
   updateEnemies();
 
-  // Player hit by bomb
+  // Check player collision with bomb
   if (bombedArea(GAME_DATA.playerPos.x, GAME_DATA.playerPos.y) && !GAME_DATA.isPaused) {
+    if (cachedPlayerEl) {
+      cachedPlayerEl.remove();
+      cachedPlayerEl = null;
+    }
 
-    if (playerEl) playerEl.remove();
+    // Remove enemies efficiently
+    const enemies = document.getElementsByClassName("enemy");
+    while (enemies.length > 0) {
+      enemies[0].remove();
+    }
 
-    document.querySelectorAll(".enemy").forEach(enemy => enemy.remove());
     GAME_DATA.lives--;
     if (GAME_DATA.lives < 0) GAME_DATA.lives = 0;
-    if (livesEl && livesEl.textContent !== `${GAME_DATA.lives}`) livesEl.textContent = `${GAME_DATA.lives}`;
+    if (cachedLivesEl) cachedLivesEl.textContent = `${GAME_DATA.lives}`;
+
     if (GAME_DATA.lives === 0 || GAME_DATA.totalSeconds <= 0) {
       HandleLose();
       return;
-    } else {
-      GAME_DATA.score = Math.max(0, GAME_DATA.score - 100);
-      if (scoreEl && scoreEl.textContent !== `${GAME_DATA.score}`) scoreEl.textContent = `${GAME_DATA.score}`;
-      GAME_DATA.isPaused = true;
-      setTimeout(() => {
-        createPlayer();
-        spawnEnemies();
-        GAME_DATA.isPaused = false;
-        GAME_DATA.animationId = requestAnimationFrame(update);
-      }, 1500);
-      return;
     }
+
+    GAME_DATA.score = Math.max(0, GAME_DATA.score - 100);
+    scoreUpdateNeeded = true;
+    GAME_DATA.isPaused = true;
+    setTimeout(() => {
+      createPlayer();
+      spawnEnemies();
+      GAME_DATA.isPaused = false;
+      GAME_DATA.animationId = requestAnimationFrame(gameLoop);
+    }, 1500);
+    return;
   }
 
+  // Process enemies
   for (let i = GAME_DATA.enemies.length - 1; i >= 0; i--) {
     const enemy = GAME_DATA.enemies[i];
     if (bombedArea(enemy.x, enemy.y)) {
@@ -88,40 +111,62 @@ export function update(now = performance.now()) {
       GAME_DATA.score += 100;
     }
   }
-  if (scoreEl && scoreEl.textContent !== `${GAME_DATA.score}`) scoreEl.textContent = `${GAME_DATA.score}`;
 
-  // Remove bombed temporary cells
+  // Process temporary cells
   GAME_DATA.temporaryCells = GAME_DATA.temporaryCells.filter(cell => {
     if (bombedArea(cell.x, cell.y)) {
       GAME_DATA.score += 100;
-      if (scoreEl && scoreEl.textContent !== `${GAME_DATA.score}`) scoreEl.textContent = `${GAME_DATA.score}`;
+      scoreUpdateNeeded = true;
       decoloreCell(cell.x, cell.y);
       return false;
     }
     return true;
   });
 
-  // End reached
-  const currentLevel = level[GAME_DATA.level - 1] || level[0];
-  const endPos = currentLevel?.endPos || GAME_DATA.endPose;
+  // Update score if needed
+  if (scoreUpdateNeeded && cachedScoreEl) {
+    cachedScoreEl.textContent = `${GAME_DATA.score}`;
+    scoreUpdateNeeded = false;
+  }
 
-  if (endPos && GAME_DATA.playerPos && GAME_DATA.playerPos.x === endPos.x && GAME_DATA.playerPos.y === endPos.y) {
+  // Check if end is reached
+  if (GAME_DATA.endPose && GAME_DATA.playerPos &&
+    GAME_DATA.playerPos.x === GAME_DATA.endPose.x &&
+    GAME_DATA.playerPos.y === GAME_DATA.endPose.y) {
     setTimeout(() => {
-      const player = document.getElementById("player");
-      if (player) player.remove();
+      if (cachedPlayerEl) cachedPlayerEl.remove();
     }, 1000);
     endReached();
     return;
   }
+}
 
-  // Animation frame control
+export function gameLoop(currentTime = performance.now()) {
+  if (!previousTime) previousTime = currentTime;
+
+  let elapsed = currentTime - previousTime;
+  previousTime = currentTime;
+
+  // Prevent spiral of death
+  if (elapsed > MAX_FRAME_TIME) elapsed = FRAME_TIME;
+
+  lag += elapsed;
+
+  // Update game state at fixed time step
+  while (lag >= FRAME_TIME) {
+    gameUpdate();
+    lag -= FRAME_TIME;
+  }
+
+  // Update FPS counter
+  updateFPS(currentTime);
+
+  // Schedule next frame if game is not paused
   if (!GAME_DATA.isPaused) {
-    GAME_DATA.animationId = requestAnimationFrame(update);
-  } else if (GAME_DATA.animationId) {
-    cancelAnimationFrame(GAME_DATA.animationId);
-    GAME_DATA.animationId = null;
+    GAME_DATA.animationId = requestAnimationFrame(gameLoop);
   }
 }
+
 
 export function startAnimation() {
   if (GAME_DATA.animationId) {
@@ -131,6 +176,6 @@ export function startAnimation() {
   }
   if (!GAME_DATA.isPaused) {
     startTimer();
-    update();
+    GAME_DATA.animationId = requestAnimationFrame(gameLoop);
   }
 }

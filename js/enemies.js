@@ -4,10 +4,10 @@ import { detectCollision } from "./collision.js";
 const gameScreen = document.getElementById("game-area");
 
 const ENEMY_DIRECTIONS = [
-  { dx: 0, dy: -1 }, // up
-  { dx: 0, dy: 1 },  // down
-  { dx: -1, dy: 0 }, // left
-  { dx: 1, dy: 0 },  // right
+  { dx: 0, dy: -1 },
+  { dx: 0, dy: 1 }, 
+  { dx: -1, dy: 0 },
+  { dx: 1, dy: 0 },
 ];
 
 export function createEnemy() {
@@ -26,9 +26,6 @@ export function createEnemy() {
   const initialDir = ENEMY_DIRECTIONS[Math.floor(Math.random() * ENEMY_DIRECTIONS.length)];
   GAME_DATA.enemies.push({ el: enemy, x: GAME_DATA.enmSpawnCell.x, y: GAME_DATA.enmSpawnCell.y, dir: initialDir });
 }
-
-
-
 
 let lastEnemyMoveTime = 0;
 const ENEMY_MOVE_INTERVAL = 400;
@@ -76,7 +73,6 @@ function moveEnemies() {
     }
   });
 }
-
 
 export async function updateEnemies() {
   const now = Date.now();

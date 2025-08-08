@@ -27,15 +27,12 @@ export async function detectCollision() {
       playerRect.y < enemyRect.y + enemyRect.height &&
       playerRect.y + playerRect.height > enemyRect.y
     ) {
-      // Collision detected
       const player = document.getElementById("player");
       if (player) {
 
         player.remove();
 
         GAME_DATA.isPaused = true;
-
-        //console.log("enemy collided")
       }
 
       for (const enemy of enemies) {
@@ -65,32 +62,5 @@ export async function detectCollision() {
       return;
     }
   }
-
-
-/*
-  if (GAME_DATA.bombThrowed) {
-
-    const bomb = document.querySelector(".bomb");
-
-    console.log("bomb throwed !")
-
-    const bombRect = bomb.getBoundingClientRect();
-
-    const enemies = document.querySelectorAll(".enemy");
-
-
-    for (const enemy of enemies) {
-
-      const enemyRect = enemy.getBoundingClientRect();
-      if (
-        bombRect.x < enemyRect.x + enemyRect.width && bombRect.x + playerRect.width > enemyRect.x &&
-        bombRect.y < enemyRect.y + enemyRect.height && bombRect.y + playerRect.height > enemyRect.y
-      ) {
-        console.log("enemy collided with bomb !!!")
-        enemy.remove();
-      }
-    }
-  }
-*/
   
 }

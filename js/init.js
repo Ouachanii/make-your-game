@@ -1,7 +1,6 @@
 import { makeGrid, posCells, setUnbreakableCells, setTemporaryCells } from './grid.js';
 import { createPlayer } from './player.js';
-import { GAME_DATA } from './data.js';
-import { level } from './levels.js';
+import { GAME_DATA, level } from './data.js';
 import { createEnemy } from './enemies.js';
 
 const gameScreen = document.getElementById("game-area");
@@ -15,10 +14,10 @@ export function init() {
   GAME_DATA.enemies = [];
   GAME_DATA.temporaryCells = [];
   GAME_DATA.isDead = false;
-  
+
   // Get current level data
   const currentLevel = level[GAME_DATA.level - 1] || level[0];
-  
+
   // Set timer based on level
   GAME_DATA.totalSeconds = currentLevel.timeLimit || 180;
   const minutes = Math.floor(GAME_DATA.totalSeconds / 60);
@@ -29,21 +28,24 @@ export function init() {
   posCells();
   setUnbreakableCells();
   setTemporaryCells();
+
+  // Set a random end position from temporary cells
+  const currentLevelData = level[GAME_DATA.level - 1] || level[0];
+  if (currentLevelData.temporaryCells && currentLevelData.temporaryCells.length > 0) {
+    const randomCell = currentLevelData.temporaryCells[Math.floor(Math.random() * currentLevelData.temporaryCells.length)];
+    GAME_DATA.endPose = { x: randomCell.x, y: randomCell.y };
+  }
+
   createPlayer();
   spawnEnemies();
 }
 
 
 export function spawnEnemies() {
-
-  
-
   for (let i = 0; i <= GAME_DATA.level; i++) {
 
     GAME_DATA.enmSpawnCell = level[GAME_DATA.level - 1].enmSpawnPos[i];
-    
     createEnemy();
-
     GAME_DATA.enemiesCount++;
   }
 

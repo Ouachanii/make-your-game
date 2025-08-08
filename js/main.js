@@ -1,8 +1,7 @@
-import { GAME_DATA } from './data.js';
-import { level } from './levels.js';
+import { GAME_DATA, level } from './data.js';
 import { handleKeyDown, handleKeyUp } from './player.js';
 import { init } from './init.js';
-import { startAnimation } from './animation.js';
+import { gameLoop, startAnimation } from './animation.js';
 import { updateAllCellSizes } from './grid.js';
 
 const pauseButton = document.getElementById("pause-btn");
@@ -30,8 +29,6 @@ if (startButton) {
     startAnimation();
   });
 }
-
-
 
 if (pauseButton) {
   pauseButton.addEventListener("click", () => {
@@ -76,10 +73,7 @@ restartButtons.forEach(restartButton => {
       updateLevelDisplay();
 
       init();
-
-
-
-      startAnimation()
+      startAnimation();
     }
   });
 });
@@ -92,6 +86,9 @@ if (winMenu) {
       GAME_DATA.isPaused = false;
       GAME_DATA.isStarted = true;
       GAME_DATA.level++;
+      if (GAME_DATA.level > 5) {
+        GAME_DATA.level = 1;
+      }
       GAME_DATA.bombThrowed = false;
       GAME_DATA.bombedCells = [];
       GAME_DATA.bombPos = {};
@@ -107,7 +104,7 @@ if (winMenu) {
       if (scoreEl) scoreEl.textContent = `${GAME_DATA.score}`;
 
       updateLevelDisplay();
-      startAnimation();
+      requestAnimationFrame(gameLoop);
     });
   }
 }

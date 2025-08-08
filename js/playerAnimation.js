@@ -1,5 +1,5 @@
 export class playerAnimation {
-  constructor(spriteSheet, frameWidth, frameHeight, totalFrames = 16) {
+  constructor(spriteSheet, frameWidth, frameHeight, totalFrames) {
     this.spriteSheet = spriteSheet;
     this.frameWidth = frameWidth;
     this.frameHeight = frameHeight;
