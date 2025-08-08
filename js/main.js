@@ -1,4 +1,4 @@
-import { GAME_DATA, level } from './data.js';
+import { GAME_DATA} from './data.js';
 import { handleKeyDown, handleKeyUp } from './player.js';
 import { init } from './init.js';
 import { startAnimation } from './animation.js';
@@ -13,11 +13,8 @@ const startButton = document.getElementById("start-button");
 const winMenu = document.getElementById("win-menu");
 
 document.addEventListener("DOMContentLoaded", () => {
-
   updateCellSize();
-  updateLevelDisplay();
   init();
-
 })
 
 if (startButton) {
@@ -69,8 +66,6 @@ restartButtons.forEach(restartButton => {
       GAME_DATA.lives = 3;
       GAME_DATA.score = 0;
 
-      // Update level display
-      updateLevelDisplay();
 
       init();
       startAnimation();
@@ -103,7 +98,6 @@ if (winMenu) {
       if (levelEl) levelEl.textContent = `${GAME_DATA.level}`;
       if (scoreEl) scoreEl.textContent = `${GAME_DATA.score}`;
 
-      updateLevelDisplay();
       startAnimation();
     });
   }
@@ -150,26 +144,6 @@ function updateAllPositions() {
       el.style.transform = `translate(${el.dataset.y * GAME_DATA.cellSize}px, ${el.dataset.x * GAME_DATA.cellSize}px)`;
     }
   });
-}
-
-function updateLevelDisplay() {
-  const currentLevel = level[GAME_DATA.level - 1] || level[0];
-  const levelNameElement = document.getElementById("level-name");
-  const levelDescriptionElement = document.getElementById("level-description");
-
-  if (levelNameElement) {
-    levelNameElement.textContent = currentLevel.name;
-  }
-
-  if (levelDescriptionElement) {
-    levelDescriptionElement.textContent = currentLevel.description;
-  }
-
-  // Update level info in menus
-  const finalLevelElement = document.getElementById("final-level");
-  if (finalLevelElement) {
-    finalLevelElement.textContent = GAME_DATA.level;
-  }
 }
 
 function updateCellSize() {
