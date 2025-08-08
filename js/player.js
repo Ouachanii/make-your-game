@@ -7,18 +7,10 @@ import { playerAnimation } from './playerAnimation.js';
 
 let gameScreen;
 
-
-// Global sprite animation instance
 let playerSprite;
 
-
-// Animation state
-let lastFrameTime = 0;
-const ANIMATION_FRAME_DURATION = 1000 / 60; // 60 FPS animation
-let accumulatedTime = 0;
-
 export function createPlayer() {
-  // Initialize game screen reference
+  // Initialize game screen
   gameScreen = document.getElementById("game-area");
   if (!gameScreen) {
     console.error("Game area element not found!");
@@ -29,21 +21,17 @@ export function createPlayer() {
   player.className = "player"
   player.id = "player"
 
-  // Initialize sprite animation system with frame timing
+  // Initialize sprite animation
   const cellSize = GAME_DATA.cellSize;
   playerSprite = new playerAnimation("assets/player.png", cellSize, cellSize, 16);
-  lastFrameTime = performance.now();
 
-  // Apply initial sprite
   playerSprite.applyToElement(player);
 
-  // Responsive size
   player.style.width = `${GAME_DATA.cellSize}px`;
   player.style.height = `${GAME_DATA.cellSize}px`;
 
   gameScreen.appendChild(player);
 
-  // Reset groundCells before populating
   GAME_DATA.groundCells = [];
   GAME_DATA.cells.forEach(cell => {
     if (canMoveTo(cell.x, cell.y)) {
@@ -51,29 +39,21 @@ export function createPlayer() {
     }
   })
 
-  // Get current level data for player start position
-  const currentLevel = level[GAME_DATA.level - 1] || level[0];
-  const startPos = currentLevel.playerStartPos || { x: 1, y: 1 };
-
-  // Find the spawn cell or use default
-  const spawnCell = GAME_DATA.groundCells.find(cell =>
-    cell.x === startPos.x && cell.y === startPos.y
-  ) || GAME_DATA.groundCells[0];
+  const spawnCell = GAME_DATA.groundCells[0];
 
   player.style.transform = `translate(${spawnCell.y * GAME_DATA.cellSize}px, ${spawnCell.x * GAME_DATA.cellSize}px)`
 
   GAME_DATA.playerPos = { x: spawnCell.x, y: spawnCell.y }
 
-  // Start sprite animation
   playerSprite.start();
 }
-////////////////////////////////////////
+
 export function canMoveTo(x, y) {
   return !(GAME_DATA.wallCells.has(`${x},${y}`) ||
     (GAME_DATA.temporaryCells.some(cordinate => (cordinate.x === x && cordinate.y === y))));
 }
 
-const playerMoveInt = 250;
+const playerMoveInt = 200;
 let lastMove = 0;
 
 export async function movePlayer(dx, dy) {
@@ -100,7 +80,6 @@ export async function movePlayer(dx, dy) {
       else if (dy > 0) playerSprite.setDirection('down');
       else if (dy < 0) playerSprite.setDirection('up');
 
-      // Apply updated sprite
       playerSprite.applyToElement(player);
     }
 
@@ -108,33 +87,16 @@ export async function movePlayer(dx, dy) {
     GAME_DATA.playerPos.x = newX;
     GAME_DATA.playerPos.y = newY;
   }
-  // Note: We don't call setPlayerIdle() here anymore - let the updatePlayerSprite handle it
 
   lastMove = now
 }
 
-// Function to update sprite animation
+// update sprite animation
 export function updatePlayerSprite(currentTime) {
   if (playerSprite) {
-    // Check if player should be set to idle after 0.5 seconds of no movement
-    if (currentTime - GAME_DATA.lastMovementTime > GAME_DATA.idleDelay && playerSprite.currentState === 'walking') {
-      setPlayerIdle();
-    }
 
     playerSprite.update(currentTime);
 
-    // Apply current sprite state to player element
-    const player = document.getElementById("player");
-    if (player) {
-      playerSprite.applyToElement(player);
-    }
-  }
-}
-
-// Function to set player to idle state
-export function setPlayerIdle() {
-  if (playerSprite) {
-    playerSprite.setState('idle');
     const player = document.getElementById("player");
     if (player) {
       playerSprite.applyToElement(player);

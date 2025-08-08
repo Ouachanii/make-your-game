@@ -4,11 +4,9 @@ const gameScreen = document.getElementById("game-area");
 
 
 function makeGrid() {
-  // Clear previous grid
   gameScreen.innerHTML = "";
   GAME_DATA.colsLen = 15;
   GAME_DATA.rowsLen = 13;
-  // CSS Grid
   gameScreen.style.display = "grid";
   gameScreen.style.gridTemplateColumns = `repeat(15, var(--cell-size))`;
   gameScreen.style.gridTemplateRows = `repeat(13, var(--cell-size))`;
@@ -48,7 +46,7 @@ function posCells() {
 
     if ((GAME_DATA.cells[i].x === 0) || (GAME_DATA.cells[i].y === 0) || (GAME_DATA.cells[i].y === GAME_DATA.colsLen - 1) || (GAME_DATA.cells[i].x === GAME_DATA.rowsLen - 1)) {
 
-      GAME_DATA.cells[i].isWall = true; // outline game screen
+      GAME_DATA.cells[i].isWall = true;
       GAME_DATA.cells[i].div.classList = "wall"
 
     }
@@ -105,12 +103,10 @@ function setTemporaryCells() {
 }
 
 function updateAllCellSizes() {
-  // Update all grid cells
   document.querySelectorAll('.cell, .ground, .wall, .wood, .endCell').forEach(cell => {
     cell.style.width = `${GAME_DATA.cellSize}px`;
     cell.style.height = `${GAME_DATA.cellSize}px`;
   });
-  // Update player, enemies, bombs, explosions
   document.querySelectorAll('.player, .enemy, .bomb, .explosion').forEach(el => {
     el.style.width = `${GAME_DATA.cellSize}px`;
     el.style.height = `${GAME_DATA.cellSize}px`;

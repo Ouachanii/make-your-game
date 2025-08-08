@@ -15,10 +15,8 @@ export function init() {
   GAME_DATA.temporaryCells = [];
   GAME_DATA.isDead = false;
 
-  // Get current level data
   const currentLevel = level[GAME_DATA.level - 1] || level[0];
 
-  // Set timer based on level
   GAME_DATA.totalSeconds = currentLevel.timeLimit || 180;
   const minutes = Math.floor(GAME_DATA.totalSeconds / 60);
   const seconds = GAME_DATA.totalSeconds % 60;
@@ -29,7 +27,6 @@ export function init() {
   setUnbreakableCells();
   setTemporaryCells();
 
-  // Set a random end position from temporary cells
   const currentLevelData = level[GAME_DATA.level - 1] || level[0];
   if (currentLevelData.temporaryCells && currentLevelData.temporaryCells.length > 0) {
     const randomCell = currentLevelData.temporaryCells[Math.floor(Math.random() * currentLevelData.temporaryCells.length)];

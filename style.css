@@ -35,7 +35,7 @@ header {
     background: rgba(74, 35, 90, 0.7);
     border-bottom: 3px solid var(--light-purple);
     border-radius: 8px;
-    height: 12vh;
+    height: auto;
 }
 
 .game-header h1 {
@@ -43,6 +43,20 @@ header {
     color: var(--text-color);
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     letter-spacing: 2px;
+}
+#sprite-container {
+  position: relative;
+  width: 90%;
+  height: 40px;
+  background: transparent;
+}
+
+#player-sprite {
+  position: absolute;
+  width: 28px; /* frame width */
+  height: 40.5px; /* frame height */
+  background: url("assets/player.png") no-repeat;
+  image-rendering: pixelated; /* keep it sharp */
 }
 
 .game-screen {
@@ -417,8 +431,7 @@ div.game-area {
 
 @media (max-width: 768px) {
     .game-header {
-        height: 8vh;
-        margin-bottom: 25px;
+        height: auto;
     }
 
     .game-screen {
@@ -514,6 +527,10 @@ div.game-area {
         background: linear-gradient(to bottom, #6a0dad, #9b59b6);
         color: white;
         border: none;
+    }
+
+    #sprite-container {
+        width: 90%;
     }
 }
 

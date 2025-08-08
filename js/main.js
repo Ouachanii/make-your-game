@@ -1,7 +1,7 @@
 import { GAME_DATA, level } from './data.js';
 import { handleKeyDown, handleKeyUp } from './player.js';
 import { init } from './init.js';
-import { gameLoop, startAnimation } from './animation.js';
+import { startAnimation } from './animation.js';
 import { updateAllCellSizes } from './grid.js';
 
 const pauseButton = document.getElementById("pause-btn");
@@ -104,7 +104,7 @@ if (winMenu) {
       if (scoreEl) scoreEl.textContent = `${GAME_DATA.score}`;
 
       updateLevelDisplay();
-      requestAnimationFrame(gameLoop);
+      startAnimation();
     });
   }
 }

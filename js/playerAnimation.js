@@ -5,7 +5,7 @@ export class playerAnimation {
     this.frameHeight = frameHeight;
     this.totalFrames = totalFrames;
     this.currentFrame = 0;
-    this.animationSpeed = 150;
+    this.animationSpeed = 140;
     this.lastFrameTime = 0;
     this.isAnimating = false;
     this.currentState = 'idle';
@@ -51,10 +51,8 @@ export class playerAnimation {
 
     const directionData = state[this.direction];
     if (Array.isArray(directionData)) {
-      // Walking animation - cycle through frames
       return directionData[this.currentFrame % directionData.length];
     } else {
-      // Idle state single frame
       return directionData || 0;
     }
   }
@@ -81,7 +79,6 @@ export class playerAnimation {
     }
   }
 
-  // Set player state (idle, walking)
   setState(state) {
     if (this.currentState !== state) {
       this.currentState = state;
@@ -90,7 +87,6 @@ export class playerAnimation {
     }
   }
 
-  // Set player direction
   setDirection(direction) {
     if (this.direction !== direction) {
       this.direction = direction;
@@ -98,18 +94,15 @@ export class playerAnimation {
     }
   }
 
-  // Start animation
   start() {
     this.isAnimating = true;
   }
 
-  // Stop animation
   stop() {
     this.isAnimating = false;
     this.currentFrame = 0;
   }
 
-  // Apply sprite to DOM element
   applyToElement(element) {
     if (!element) return;
 
@@ -125,7 +118,6 @@ export class playerAnimation {
       element.style.backgroundPosition = bgPosition;
       element.style.backgroundRepeat = 'no-repeat';
       
-      // Add a small optimization: only update if position actually changed
       if (element.dataset.lastBgPosition !== bgPosition) {
         element.dataset.lastBgPosition = bgPosition;
       }

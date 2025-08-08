@@ -28,7 +28,7 @@ export function createEnemy() {
 }
 
 let lastEnemyMoveTime = 0;
-const ENEMY_MOVE_INTERVAL = 400;
+const ENEMY_MOVE_INTERVAL = 300;
 
 function moveEnemies() {
   GAME_DATA.enemies.forEach(enemy => {
