@@ -11,7 +11,7 @@ import { startTimer, stopTimer } from './timer.js';
 let scoreUpdateNeeded = false;
 
 function gameUpdate() {
-  updatePlayerSprite(performance.now());
+  updatePlayerSprite(Date.now());
   updateEnemies();
 
   // Check player collision with bomb
@@ -24,6 +24,8 @@ function gameUpdate() {
     }
 
     GAME_DATA.lives--;
+    const livesEl = document.getElementById("lives");
+    if (livesEl) livesEl.textContent = `${GAME_DATA.lives}`;
     if (GAME_DATA.lives < 0) GAME_DATA.lives = 0;
 
     if (GAME_DATA.lives === 0 || GAME_DATA.totalSeconds <= 0) {

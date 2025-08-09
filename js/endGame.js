@@ -17,7 +17,7 @@ export function HandleWin() {
     if (finalTime) finalTime.textContent = `${180 - GAME_DATA.totalSeconds} s`;
     if (nextLevel > 5) {
         nextLevel = 1;
-        if (finalLevel) finalLevel.textContent = nextLevel + "(You won! click restart to replay!)";
+        if (finalLevel) finalLevel.textContent = nextLevel + "(You won! click to replay!)";
     }
 }
 

@@ -1,4 +1,4 @@
-import { GAME_DATA} from './data.js';
+import { GAME_DATA } from './data.js';
 import { handleKeyDown, handleKeyUp } from './player.js';
 import { init } from './init.js';
 import { startAnimation } from './animation.js';
@@ -52,7 +52,6 @@ const restartButtons = [
 restartButtons.forEach(restartButton => {
   restartButton.addEventListener("click", () => {
     if (GAME_DATA.isStarted) {
-      //console.log("restarted")
       if (pauseMenu) pauseMenu.classList.add("hidden")
       if (gameOverMenu) gameOverMenu.classList.add("hidden")
       if (winMenu) winMenu.classList.add("hidden")
@@ -61,14 +60,17 @@ restartButtons.forEach(restartButton => {
       GAME_DATA.isDead = false;
       GAME_DATA.isStarted = true;
       GAME_DATA.totalSeconds = 180;
-      GAME_DATA.animationId = null;
       GAME_DATA.level = 1;
       GAME_DATA.lives = 3;
       GAME_DATA.score = 0;
+      GAME_DATA.animationId = null;
+      init()
 
+      document.getElementById("lives").textContent = `${GAME_DATA.lives}`;
+      document.getElementById("level").textContent = `${GAME_DATA.level}`;
+      document.getElementById("score").textContent = `${GAME_DATA.score}`;
 
-      init();
-      startAnimation();
+      startAnimation()
     }
   });
 });
